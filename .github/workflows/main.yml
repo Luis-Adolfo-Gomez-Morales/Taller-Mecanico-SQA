@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   pruebas:
-    name: Pruebas automatizadas
+    name: Pruebas automatizadas y calidad
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,9 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
+
+      - name: Analizar codigo con ESLint
+        run: npm run lint
 
       - name: Ejecutar pruebas y medir cobertura
         run: npm run test:coverage
