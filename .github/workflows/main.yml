@@ -1,4 +1,3 @@
-
 name: Calidad de Software - Taller Mecanico
 
 on:
@@ -29,5 +28,5 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
-      - name: Ejecutar pruebas
-        run: npm test
+      - name: Ejecutar pruebas y medir cobertura
+        run: npm run test:coverage
