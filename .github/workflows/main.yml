@@ -1,3 +1,4 @@
+
 name: Calidad de Software - Taller Mecanico
 
 on:
@@ -30,3 +31,10 @@ jobs:
 
       - name: Ejecutar pruebas y medir cobertura
         run: npm run test:coverage
+
+      - name: Verificar cobertura minima
+        run: |
+          node --test --experimental-test-coverage \
+            --test-coverage-include='src/**/*.js' \
+            --test-coverage-threshold=60 \
+            tests/*.test.js
