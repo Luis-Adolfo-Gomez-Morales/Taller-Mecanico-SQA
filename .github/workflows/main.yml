@@ -36,5 +36,5 @@ jobs:
         run: |
           node --test --experimental-test-coverage \
             --test-coverage-include='src/**/*.js' \
-            --test-coverage-threshold=60 \
+            --test-coverage-lines=60 \
             tests/*.test.js
