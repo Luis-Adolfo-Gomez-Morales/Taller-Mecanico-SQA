@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es" spellcheck="true">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Repuestos | Taller Mecánico</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/modules/repuestos.css">
+    <link rel="stylesheet" href="../styles/dialogs.css">
+</head>
+
+<body class="dashboard-body">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Taller</h2>
+
+            <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Contraer menu" aria-expanded="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M15 6l-6 6 6 6"></path>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Menu principal">
+            <a class="nav-button" href="dashboard.html" data-tooltip="Inicio">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 11l9-7 9 7"></path>
+                        <path d="M5 10v10h14V10"></path>
+                        <path d="M10 20v-6h4v6"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Inicio</span>
+            </a>
+
+            <a class="nav-button" href="vehiculos.html" data-tooltip="Vehiculos">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 16h12l2-5H4l2 5z"></path>
+                        <path d="M7 16l-1.5 3"></path>
+                        <path d="M17 16l1.5 3"></path>
+                        <path d="M8 19h.01"></path>
+                        <path d="M16 19h.01"></path>
+                        <path d="M7 11l2-4h6l2 4"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Vehiculos</span>
+            </a>
+
+            <a class="nav-button" href="#" data-tooltip="Servicios">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14.7 6.3a4 4 0 0 0-5 5L4 17v3h3l5.7-5.7a4 4 0 0 0 5-5l-3 3-2-2 3-3z"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Servicios</span>
+            </a>
+
+            <a class="nav-button" href="pilotos.html" data-tooltip="Clientes">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Clientes</span>
+            </a>
+
+            <a class="nav-button active" href="repuestos.html" data-tooltip="Repuestos">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 7h10v10H7z"></path>
+                        <path d="M4 10h3"></path>
+                        <path d="M17 10h3"></path>
+                        <path d="M10 4v3"></path>
+                        <path d="M14 17v3"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Repuestos</span>
+            </a>
+
+            <a class="nav-button" href="ordenes-trabajo.html" data-tooltip="Ordenes de Trabajo">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 3h10v18H7z"></path>
+                        <path d="M9 7h6"></path>
+                        <path d="M9 11h6"></path>
+                        <path d="M9 15h4"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Ordenes de Trabajo</span>
+            </a>
+
+            <a class="nav-button" href="mecanicos.html" data-tooltip="Mecanicos">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M16 21v-2a4 4 0 0 0-8 0v2"></path>
+                        <path d="M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                        <path d="M19 8l2 2-4 4-2-2 4-4z"></path>
+                    </svg>
+                </span>
+                <span class="nav-label">Mecanicos</span>
+            </a>
+            <a class="nav-button" href="historial.html" data-tooltip="Historial"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-7M3 3v5h5M12 7v5l3 2"/></svg></span><span class="nav-label">Historial</span></a>
+        </nav>
+    </aside>
+
+    <main class="contenido">
+        <header class="dashboard-title">
+            <div>
+                <p>Control de inventario</p>
+                <h1>Repuestos</h1>
+            </div>
+        </header>
+
+        <section class="module-page repuestos-page">
+            <div class="repuestos-actions">
+                <button class="inventory-action active" type="button" data-view="existencia">Existencia</button>
+                <button class="inventory-action" type="button" data-view="ingreso">Ingreso</button>
+                <button class="inventory-action" type="button" data-view="salida">Salida</button>
+                <button class="inventory-action" type="button" data-view="historial">Historial</button>
+            </div>
+
+            <div class="repuestos-indicators metric-grid">
+                <article class="repuestos-indicator metric-card">
+                    <span class="metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m12 3 9 5v9l-9 5-9-5V8zM3 8l9 5 9-5m-9 5v9M7.5 5.5l9 5"/></svg></span>
+                    <span>Total repuestos</span>
+                    <strong id="totalRepuestos">0</strong>
+                </article>
+                <article class="repuestos-indicator metric-card">
+                    <span class="metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 3v18m18-18v18M3 12h18M3 21h18M6 5h4v7H6zm8 1h4v6h-4zM6 15h5v6H6zm9 1h3v5h-3z"/></svg></span>
+                    <span>Existencia total</span>
+                    <strong id="existenciaTotal">0</strong>
+                </article>
+                <article class="repuestos-indicator metric-card">
+                    <span class="metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m12 3 10 18H2zM12 9v5m0 3h.01"/></svg></span>
+                    <span>Bajo stock</span>
+                    <strong id="bajoStock">0</strong>
+                </article>
+                <article class="repuestos-indicator metric-card">
+                    <span class="metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg></span>
+                    <span>Valor inventario</span>
+                    <strong id="valorInventario">Q0.00</strong>
+                </article>
+            </div>
+
+            <div class="repuestos-grid">
+                <section class="dashboard-panel repuestos-main-panel">
+                    <div class="repuestos-toolbar">
+                        <button class="module-action" id="btnNuevoRepuesto" type="button">
+                            Nuevo repuesto
+                        </button>
+                        <label class="search-box">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="11" cy="11" r="7"></circle>
+                                <path d="M16 16l4 4"></path>
+                            </svg>
+                            <input id="buscarRepuesto" type="search" placeholder="Buscar por codigo o nombre">
+                        </label>
+                    </div>
+
+                    <div class="table-wrapper repuestos-table-scroll">
+                        <section class="movement-workspace is-hidden" id="movimientoPanel">
+                            <div class="movement-header">
+                                <div>
+                                    <p id="movimientoEtiqueta">Movimiento</p>
+                                    <h2 id="movimientoTitulo">Ingreso de repuesto</h2>
+                                </div>
+                            </div>
+
+                            <form class="movimiento-form" id="formMovimientoRepuesto">
+                                <label>
+                                    Repuesto
+                                    <input id="movimientoRepuesto" type="text" list="repuestosMovimientoList" placeholder="Codigo o nombre" autocomplete="off" required>
+                                    <datalist id="repuestosMovimientoList"></datalist>
+                                </label>
+
+                                <div class="form-grid">
+                                    <label>
+                                        Cantidad
+                                        <input id="movimientoCantidad" type="number" min="0.01" step="0.01" required>
+                                    </label>
+
+                                    <label>
+                                        Costo
+                                        <input id="movimientoCosto" type="number" min="0" step="0.01" placeholder="0.00">
+                                    </label>
+                                </div>
+
+                                <label>
+                                    Referencia
+                                    <input id="movimientoReferencia" type="text" placeholder="Factura, orden o vale">
+                                </label>
+
+                                <label>
+                                    Observaciones
+                                    <textarea id="movimientoObservaciones" placeholder="Detalle del movimiento"></textarea>
+                                </label>
+
+                                <button class="module-action full" id="btnGuardarMovimiento" type="submit">Registrar ingreso</button>
+                            </form>
+                        </section>
+
+                        <table class="data-table repuestos-table" id="tablaExistenciaPanel">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Repuesto</th>
+                                    <th>Descripcion</th>
+                                    <th>Existencia</th>
+                                    <th>Costo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaRepuestos"></tbody>
+                        </table>
+
+                        <table class="data-table repuestos-table is-hidden" id="tablaHistorialPanel">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Codigo</th>
+                                    <th>Repuesto</th>
+                                    <th>Cantidad</th>
+                                    <th>Existencia</th>
+                                    <th>Referencia</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaHistorialRepuestos"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <aside class="dashboard-panel ultimos-ingresos-panel">
+                    <div class="panel-header">
+                        <p>Inventario</p>
+                        <h2>Ultimos ingresos</h2>
+                    </div>
+                    <div class="ultimos-ingresos-list" id="ultimosIngresosList"></div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <div class="repuesto-modal" id="modalRepuesto" aria-hidden="true">
+        <div class="repuesto-modal-backdrop" data-close-repuesto-modal></div>
+
+        <section class="dashboard-panel repuesto-modal-card" role="dialog" aria-modal="true" aria-label="Registro de repuesto">
+            <button class="modal-close" id="btnCerrarRepuesto" type="button" aria-label="Cerrar registro de repuesto">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6L6 18"></path>
+                </svg>
+            </button>
+
+            <div class="panel-header">
+                <div>
+                    <p>Inventario</p>
+                    <h2>Nuevo repuesto</h2>
+                </div>
+            </div>
+
+            <form class="repuesto-form" id="formRepuesto">
+                <div class="form-grid">
+                    <label>
+                        Código
+                        <input id="repuestoCodigo" type="text" maxlength="50" required spellcheck="false">
+                    </label>
+                    <label>
+                        Existencia inicial
+                        <input id="repuestoExistencia" type="number" min="0" step="0.01" value="0" required>
+                    </label>
+                </div>
+
+                <label>
+                    Nombre
+                    <input id="repuestoNombre" type="text" maxlength="150" required>
+                </label>
+
+                <label>
+                    Descripción
+                    <input id="repuestoDescripcion" type="text">
+                </label>
+
+                <label>
+                    Costo unitario
+                    <input id="repuestoCosto" type="number" min="0" step="0.01" value="0" required>
+                </label>
+
+                <button class="module-action full" type="submit">Guardar repuesto</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="../scripts/ui-dialogs.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+    <script src="../scripts/modules/repuestos.js"></script>
+</body>
+
+</html>

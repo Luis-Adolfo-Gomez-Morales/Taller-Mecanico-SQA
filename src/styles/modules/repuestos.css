@@ -1,0 +1,295 @@
+.repuestos-page *,
+.repuesto-modal *{
+    box-sizing:border-box;
+}
+
+.repuestos-actions{
+    margin-bottom:14px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.inventory-action{
+    min-height:38px;
+    padding:0 16px;
+    border:1px solid rgba(125,211,252,0.22);
+    border-radius:10px;
+    background:rgba(15,23,42,0.46);
+    color:#dbeafe;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.inventory-action.active,
+.inventory-action:hover{
+    background:rgba(14,165,233,0.24);
+    color:#f8fafc;
+}
+
+.repuestos-indicators{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(150px, 1fr));
+    gap:12px;
+    margin-bottom:14px;
+}
+
+.repuestos-indicator{
+    min-height:68px;
+    padding:12px 14px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.10);
+    border:1px solid rgba(255,255,255,0.10);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.repuestos-indicator span{
+    color:#cbd5e1;
+    font-size:13px;
+}
+
+.repuestos-indicator strong{
+    color:#f8fafc;
+    font-size:23px;
+}
+
+.repuestos-grid{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) minmax(280px, 340px);
+    gap:14px;
+    align-items:start;
+}
+
+.repuestos-main-panel{
+    grid-row:span 2;
+}
+
+.repuestos-toolbar{
+    padding:12px 14px;
+    display:flex;
+    justify-content:flex-end;
+    border-bottom:1px solid rgba(255,255,255,0.10);
+}
+
+.search-box{
+    width:min(360px, 100%);
+    height:36px;
+    padding:0 12px;
+    border-radius:10px;
+    background:rgba(15,23,42,0.46);
+    border:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.search-box svg{
+    width:18px;
+    height:18px;
+    fill:none;
+    stroke:#bae6fd;
+    stroke-width:2;
+}
+
+.search-box input,
+.movimiento-form input,
+.movimiento-form textarea,
+.repuesto-form input{
+    width:100%;
+    border:0;
+    outline:0;
+    color:#f8fafc;
+    background:transparent;
+    font:inherit;
+}
+
+.movimiento-form input,
+.movimiento-form textarea,
+.repuesto-form input{
+    border-radius:9px;
+    background:rgba(15,23,42,0.46);
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.movimiento-form input,
+.repuesto-form input{
+    height:34px;
+    padding:0 10px;
+}
+
+.movimiento-form textarea{
+    min-height:76px;
+    padding:9px 10px;
+    resize:vertical;
+}
+
+.repuestos-table-scroll{
+    max-height:calc(100vh - 382px);
+    min-height:320px;
+    overflow:auto;
+}
+
+.repuestos-table{
+    min-width:760px;
+}
+
+.stock-pill,
+.movement-pill{
+    min-width:78px;
+    padding:6px 10px;
+    border-radius:999px;
+    display:inline-flex;
+    justify-content:center;
+    font-size:12px;
+    font-weight:800;
+}
+
+.stock-pill.ok,
+.movement-pill.in{
+    background:rgba(74,222,128,0.18);
+    color:#bbf7d0;
+}
+
+.stock-pill.low,
+.movement-pill.out{
+    background:rgba(248,113,113,0.20);
+    color:#fecaca;
+}
+
+.movimiento-form,
+.repuesto-form{
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.movimiento-form label,
+.repuesto-form label{
+    color:#cbd5e1;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.ultimos-ingresos-list{
+    padding:12px 14px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.ingreso-item{
+    padding:10px;
+    border-radius:10px;
+    background:rgba(15,23,42,0.36);
+    border:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.ingreso-item div{
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+.ingreso-item strong{
+    color:#f8fafc;
+}
+
+.ingreso-item span,
+.ingreso-item small,
+.empty-note{
+    color:#cbd5e1;
+}
+
+.is-hidden{
+    display:none !important;
+}
+
+.repuesto-modal{
+    position:fixed;
+    inset:0;
+    z-index:80;
+    display:none;
+    place-items:center;
+    padding:16px;
+}
+
+.repuesto-modal.is-open{
+    display:grid;
+}
+
+.repuesto-modal-backdrop{
+    position:absolute;
+    inset:0;
+    background:rgba(2,6,23,0.68);
+    backdrop-filter:blur(10px);
+}
+
+.repuesto-modal-card{
+    position:relative;
+    z-index:1;
+    width:min(680px, calc(100vw - 32px));
+    box-shadow:0 24px 70px rgba(0,0,0,0.35);
+}
+
+.modal-close{
+    position:absolute;
+    top:12px;
+    right:14px;
+    width:34px;
+    height:34px;
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:10px;
+    background:rgba(15,23,42,0.72);
+    color:#f8fafc;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+}
+
+.modal-close svg{
+    width:17px;
+    height:17px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2;
+    stroke-linecap:round;
+}
+
+@media (max-width:1120px){
+    .repuestos-indicators,
+    .repuestos-grid{
+        grid-template-columns:1fr;
+    }
+
+    .repuestos-main-panel{
+        grid-row:auto;
+    }
+
+    .repuestos-toolbar{
+        justify-content:flex-start;
+    }
+}
+
+@media (max-width:680px){
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+}

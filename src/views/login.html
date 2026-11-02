@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" spellcheck="true">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Taller Mecánico | Login</title>
+
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/login.css">
+
+    <link rel="stylesheet" href="../styles/dialogs.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>Taller Mecánico</h1>
+
+        <form id="loginForm">
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Usuario"
+                name="usuario"
+                autocomplete="username"
+                required
+             spellcheck="false">
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                required
+                placeholder="Contraseña"
+             spellcheck="false">
+
+            <button type="submit" id="btnLogin">
+                Ingresar
+            </button>
+
+            <p id="mensaje"></p>
+
+        </form>
+
+    </div>
+
+    <script src="../scripts/ui-dialogs.js"></script>
+    <script src="../scripts/login.js"></script>
+
+</body>
+</html>

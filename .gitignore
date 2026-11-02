@@ -1,0 +1,14 @@
+node_modules/
+*.log
+npm-debug.log*
+dist/
+build/
+.env
+src/db-config.js
+
+# Respaldos privados de base de datos
+database/backups/
+*.sql.gz
+*.sql.zip
+*.bak
+*.dump
