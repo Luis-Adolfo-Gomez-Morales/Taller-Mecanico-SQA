@@ -28,9 +28,14 @@ function diasParaServicio(fecha, hoy = new Date()) {
 }
 
 function estadoMantenimiento(kilometros, dias) {
-    const km = kilometros == null ? null : Number(kilometros);
-    const fecha = dias == null ? null : Number(dias);
-    if ((km != null && km < 0) || (fecha != null && fecha < 0)) return 'Servicio pasado';
+    const km = kilometros === null || kilometros === undefined
+  ? null
+  : Number(kilometros);
+    const fecha = dias === null || dias === undefined
+  ? null
+  : Number(dias);
+    if (((km !== null && km !== undefined) && km < 0) ||
+    ((fecha !== null && fecha !== undefined) && fecha < 0)) return 'Servicio pasado';
     if ((km != null && km < 150) || (fecha != null && fecha < 7)) return 'Urgente';
     if ((km != null && km < 500) || (fecha != null && fecha < 15)) return 'Proximo';
     if (km == null && fecha == null) return 'Sin referencia';
