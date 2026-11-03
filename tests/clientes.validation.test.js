@@ -37,7 +37,8 @@ test('Contacto empresa opcional se normaliza a null y estado no se acepta del fo
 });
 
 test('Un propietario se registra sin vehiculo y no acepta una placa como relacion', () => {
-    const { vehiculo, ...datos } = completo;
+    const datos = { ...completo };
+        delete datos.vehiculo;
     assert.doesNotThrow(() => validarCliente(datos));
     assert.equal(validarCliente(completo).vehiculo, undefined);
 });

@@ -718,7 +718,7 @@ async function saveMecanico(id, value) {
     const m = validarMecanico(value);
     const values = [m.nombre,m.edad,m.dpi,m.correo,m.direccion,m.fecha_contratacion];
     try {
-        if (id != null) {
+        if (id !== null && id !== undefined) {
             validarIdEliminacion(id);
             const [rows] = await pool.execute('SELECT id_mecanico FROM mecanicos WHERE id_mecanico = ?', [id]);
             if (!rows.length) throw new Error('El mecanico ya no existe.');

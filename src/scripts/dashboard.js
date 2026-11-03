@@ -51,9 +51,9 @@ async function cargarDashboard() {
             const tr = document.createElement('tr');
             if (servicio.estado_alerta === 'Servicio pasado') tr.classList.add('maintenance-overdue');
             const valores = [servicio.placa, servicio.vehiculo, servicio.servicio, servicio.fecha_proximo_servicio,
-                servicio.dias_restantes == null ? 'Sin fecha' : servicio.dias_restantes < 0 ? `Vencido hace ${Math.abs(servicio.dias_restantes)} dias` : servicio.dias_restantes === 0 ? 'Hoy' : `${servicio.dias_restantes} dias`,
-                servicio.kilometraje_proximo == null ? 'Sin referencia' : `${Number(servicio.kilometraje_proximo).toLocaleString()} km`,
-                servicio.kilometros_restantes == null ? 'Sin referencia' : servicio.kilometros_restantes < 0 ? `Excedido por ${Math.abs(servicio.kilometros_restantes).toLocaleString()} km` : `${Number(servicio.kilometros_restantes).toLocaleString()} km`, servicio.estado_alerta === 'Proximo' ? 'Próximo' : servicio.estado_alerta];
+                (servicio.dias_restantes === null || servicio.dias_restantes === undefined) ? 'Sin fecha' : servicio.dias_restantes < 0 ? `Vencido hace ${Math.abs(servicio.dias_restantes)} dias` : servicio.dias_restantes === 0 ? 'Hoy' : `${servicio.dias_restantes} dias`,
+                (servicio.kilometraje_proximo === null || servicio.kilometraje_proximo === undefined) ? 'Sin referencia' : `${Number(servicio.kilometraje_proximo).toLocaleString()} km`,
+                (servicio.kilometros_restantes === null || servicio.kilometros_restantes === undefined) ? 'Sin referencia' : servicio.kilometros_restantes < 0 ? `Excedido por ${Math.abs(servicio.kilometros_restantes).toLocaleString()} km` : `${Number(servicio.kilometros_restantes).toLocaleString()} km`, servicio.estado_alerta === 'Proximo' ? 'Próximo' : servicio.estado_alerta];
             valores.forEach((valor, index) => {
                 const td = document.createElement('td');
                 if (index === valores.length - 1) {

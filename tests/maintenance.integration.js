@@ -147,7 +147,7 @@ async function main() {
         assert.equal(alertaKm.dias_restantes, -1);
         assert.equal(alertaKm.estado_alerta, 'Servicio pasado');
         assert(Number(alertaKm.kilometraje_actual) >= 200);
-        if (alertaKm.kilometraje_proximo != null) assert.equal(alertaKm.kilometros_restantes, Number(alertaKm.kilometraje_proximo)-Number(alertaKm.kilometraje_actual));
+        if (alertaKm.kilometraje_proximo !== null && alertaKm.kilometraje_proximo !== undefined) assert.equal(alertaKm.kilometros_restantes, Number(alertaKm.kilometraje_proximo) - Number(alertaKm.kilometraje_actual));
 
         const o2 = await db.createOrden({ ...o, numero: 'N' + suffix, placa: v.placa, kilometraje: 200, fechaEntrada: '2026-02-01', fechaSalida: '2026-02-01' });
         assert(o2.id !== o.id);
@@ -213,7 +213,7 @@ async function main() {
         assert.equal(primeraAtencion.fecha.slice(0,10), '2026-01-01');
         assert.equal(Number(primeraAtencion.kilometraje),100);
         assert(primeraAtencion.servicios.includes('Realizado'));
-        assert(historial.some(row => row.id_vehiculo === v.id && Number(row.kilometraje) === 250 && row.id_orden == null));
+        assert(historial.some(row => row.id_vehiculo === v.id && Number(row.kilometraje) === 250 && (row.id_orden === null || row.id_orden === undefined)));
         console.log('OK: relaciones, historial, mantenimiento, dashboard y eliminaciones de clientes y vehiculos.');
     } finally { await connection.rollback(); await connection.end(); }
 }

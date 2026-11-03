@@ -22,17 +22,7 @@ let estadoCargaVehiculos = 'Cargando datos...';
 const clienteContextoId = Number(new URLSearchParams(window.location.search).get('cliente')) || null;
 let guardandoVehiculo = false;
 
-function getEstadoClass(estado) {
-    if (estado === 'Activo') {
-        return 'normal';
-    }
 
-    if (estado === 'En taller') {
-        return 'medium';
-    }
-
-    return 'high';
-}
 
 function formatKilometraje(value) {
     return `${Number(value || 0).toLocaleString('en-US')} km`;

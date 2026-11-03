@@ -16,7 +16,6 @@ const totalRepuestosOrdenes = document.getElementById('totalRepuestosOrdenes');
 const ordenPlaca = document.getElementById('ordenPlaca');
 const ordenPlacasList = document.getElementById('ordenPlacasList');
 const ordenPilotosList = document.getElementById('ordenPilotosList');
-const ordenMecanicosList = document.getElementById('ordenMecanicosList');
 const ordenRepuestoBusqueda = document.getElementById('ordenRepuestoBusqueda');
 const ordenRepuestoExistencia = document.getElementById('ordenRepuestoExistencia');
 const ordenRepuestoCantidad = document.getElementById('ordenRepuestoCantidad');

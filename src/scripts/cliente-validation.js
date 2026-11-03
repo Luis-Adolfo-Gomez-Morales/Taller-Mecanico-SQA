@@ -31,7 +31,7 @@
             !Number.isFinite(fecha.getTime()) || fecha.toISOString().slice(0, 10) !== cliente.venceLicencia) {
             throw new Error('Ingresa una fecha de vencimiento valida.');
         }
-        if (value.contactoEmpresa != null && typeof value.contactoEmpresa !== 'string') {
+        if (value.contactoEmpresa !== null && value.contactoEmpresa !== undefined && typeof value.contactoEmpresa !== 'string') {
             throw new Error('Contacto empresa debe ser texto o quedar vacio.');
         }
         cliente.contactoEmpresa = value.contactoEmpresa?.trim() || null;

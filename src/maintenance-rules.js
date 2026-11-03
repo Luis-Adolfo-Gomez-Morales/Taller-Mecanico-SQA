@@ -36,9 +36,15 @@ function estadoMantenimiento(kilometros, dias) {
   : Number(dias);
     if (((km !== null && km !== undefined) && km < 0) ||
     ((fecha !== null && fecha !== undefined) && fecha < 0)) return 'Servicio pasado';
-    if ((km != null && km < 150) || (fecha != null && fecha < 7)) return 'Urgente';
-    if ((km != null && km < 500) || (fecha != null && fecha < 15)) return 'Proximo';
-    if (km == null && fecha == null) return 'Sin referencia';
+    
+    if (((km !== null && km !== undefined) && km < 150) ||
+        ((fecha !== null && fecha !== undefined) && fecha < 7)) return 'Urgente';
+
+    if (((km !== null && km !== undefined) && km < 500) ||
+        ((fecha !== null && fecha !== undefined) && fecha < 15)) return 'Proximo';
+
+    if ((km === null || km === undefined) &&
+        (fecha === null || fecha === undefined)) return 'Sin referencia';
     return 'Pendiente';
 }
 
@@ -156,8 +162,8 @@ function createRules(pool) {
             const [clientes] = await connection.execute('SELECT nombre FROM clientes WHERE id_cliente = ?', [vehiculo.id_cliente]);
             orden.piloto = clientes[0]?.nombre ?? null;
         }
-        const idMecanico = orden.idMecanico == null ? anterior?.id_mecanico : Number(orden.idMecanico);
-        if (idMecanico != null) {
+        const idMecanico = orden.idMecanico === null || orden.idMecanico === undefined ? anterior?.id_mecanico : Number(orden.idMecanico);
+        if (idMecanico !== null && idMecanico !== undefined) {
             if (!Number.isInteger(Number(idMecanico)) || Number(idMecanico) <= 0) throw new Error('Selecciona un mecanico valido.');
             const [mecanicos] = await connection.execute('SELECT nombre FROM mecanicos WHERE id_mecanico = ?', [idMecanico]);
             if (!mecanicos.length) throw new Error('El mecanico seleccionado ya no existe.');
@@ -231,7 +237,7 @@ function createRules(pool) {
         const hoy = new Date();
         for (const servicio of servicios) {
             servicio.dias_restantes = diasParaServicio(servicio.fecha_proximo_servicio, hoy);
-            servicio.kilometros_restantes = servicio.kilometraje_proximo == null ? null : Math.round((Number(servicio.kilometraje_proximo) - Number(servicio.kilometraje_actual))*100)/100;
+            servicio.kilometros_restantes = (servicio.kilometraje_proximo === null || servicio.kilometraje_proximo === undefined) ? null : Math.round((Number(servicio.kilometraje_proximo) - Number(servicio.kilometraje_actual)) * 100) / 100;
             servicio.estado_alerta = estadoMantenimiento(servicio.kilometros_restantes, servicio.dias_restantes);
         }
         return { ...counts[0], proximos: servicios.filter(s => ['Proximo', 'Urgente'].includes(s.estado_alerta)).length, vencidos: servicios.filter(s => s.estado_alerta === 'Servicio pasado').length, servicios };
