@@ -39,7 +39,7 @@ SELECT 'Individual', v.propietario, 'Sin contacto', 'Activo', NOW(), NOW()
 FROM vehiculos v
 LEFT JOIN clientes c ON c.nombre = v.propietario
 WHERE v.propietario IS NOT NULL
-  AND TRIM(v.propietario) <> ''
+  AND CHAR_LENGTH(TRIM(v.propietario)) > 0
   AND c.id_cliente IS NULL;
 
 ALTER TABLE vehiculos

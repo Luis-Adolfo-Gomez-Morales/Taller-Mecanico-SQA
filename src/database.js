@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 const localConfig = require('./config');
 const { validarCliente, correoValido } = require('./scripts/cliente-validation');
+const { hashPassword, verifyPassword } = require('./passwords');
 
 const dbConfig = {
     host: process.env.DB_HOST || localConfig.host || '127.0.0.1',
@@ -672,20 +673,25 @@ async function authenticateUser(usuario, password) {
         }
 
         const [rows] = await pool.execute(`
-            SELECT id_usuario, usuario, nombre
+            SELECT id_usuario, usuario, nombre, password_hash
             FROM usuarios
             WHERE usuario = ?
-                AND password_hash = ?
                 AND estado = 'Activo'
             LIMIT 1
-        `, [usuario.trim(), password]);
+        `, [usuario.trim()]);
         const user = rows[0];
 
-        if (!user) {
+        if (!user || !await verifyPassword(password, user.password_hash)) {
             return null;
         }
 
-        await pool.execute('UPDATE usuarios SET ultimo_acceso = NOW(), fecha_actualizacion = NOW() WHERE id_usuario = ?', [user.id_usuario]);
+        if (!user.password_hash.startsWith('scrypt$')) {
+            const hash = await hashPassword(password);
+            const [result] = await pool.execute('UPDATE usuarios SET password_hash = ?, ultimo_acceso = NOW(), fecha_actualizacion = NOW() WHERE id_usuario = ? AND BINARY password_hash = ? AND estado = \'Activo\'', [hash, user.id_usuario, user.password_hash]);
+            if (!result.affectedRows) return null;
+        } else {
+            await pool.execute('UPDATE usuarios SET ultimo_acceso = NOW(), fecha_actualizacion = NOW() WHERE id_usuario = ? AND estado = \'Activo\'', [user.id_usuario]);
+        }
 
         return {
             id: user.id_usuario,

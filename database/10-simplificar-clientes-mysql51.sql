@@ -22,7 +22,7 @@ ALTER TABLE clientes
 
 UPDATE clientes
 SET contacto_empresa = NULL
-WHERE TRIM(contacto_empresa) = '';
+WHERE CHAR_LENGTH(TRIM(contacto_empresa)) = 0;
 
 UPDATE clientes
 SET estado = IF(vence_licencia >= CURDATE(), 'Activo', 'Inactivo');

@@ -64,6 +64,12 @@ jobs:
         run: npm run db:test:prepare
       - name: Ejecutar pruebas y exigir cobertura minima de 60 por ciento
         run: npm run test:coverage
+      - name: Preparar Electron para comprobar las pantallas
+        run: |
+          node node_modules/electron/install.js
+          node node_modules/playwright/cli.js install-deps chromium
+      - name: Recorrer la aplicacion con datos de prueba
+        run: xvfb-run -a npm run test:e2e
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -71,18 +77,25 @@ jobs:
           path: |
             reports/tests.txt
             coverage/lcov.info
+            reports/e2e.txt
+            reports/e2e/*.png
           if-no-files-found: error
           retention-days: 14
 
   analyze:
     name: analyze
-    needs: build
+    needs: [build, test]
     runs-on: ubuntu-latest
+    env:
+      SONAR_CI_ENABLED: ${{ vars.SONAR_CI_ENABLED }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     permissions:
       contents: read
       checks: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22.22.3'
@@ -90,7 +103,21 @@ jobs:
       - run: npm ci --ignore-scripts
       - name: Exigir cero errores y cero advertencias
         run: npm run lint
+      - uses: actions/download-artifact@v4
+        if: env.SONAR_CI_ENABLED == 'true'
+        with:
+          name: resultados-pruebas
+          path: .
+      - name: Analizar codigo y enviar cobertura a SonarQube
+        if: env.SONAR_CI_ENABLED == 'true'
+        uses: SonarSource/sonarqube-scan-action@59db25f34e16620e48ab4bb9e4a5dce155cb5432
+        with:
+          args: >-
+            -Dproject.settings=.sonar-ci.properties
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300
       - name: Comprobar el resultado de la integracion nativa de SonarQube
+        if: env.SONAR_CI_ENABLED != 'true'
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/check-sonar.js
