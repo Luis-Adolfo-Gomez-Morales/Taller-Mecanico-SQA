@@ -12,3 +12,19 @@ database/backups/
 *.sql.zip
 *.bak
 *.dump
+
+# Reportes generados por las pruebas
+coverage/
+reports/
+
+# Entregas que se presentan fuera de GitHub
+*.pdf
+*.ppt
+*.pptx
+*.odp
+*.mp4
+*.mov
+*.mkv
+*.webm
+presentacion/
+video/

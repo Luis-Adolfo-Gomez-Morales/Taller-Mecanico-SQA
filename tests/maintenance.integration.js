@@ -1,4 +1,4 @@
-// Ejecutar con node tests/maintenance.integration.js. Todas las escrituras se revierten.
+// Se usa una base separada para comprobar operaciones reales de MySQL.
 const assert = require('node:assert/strict');
 const { createDatabase } = require('../src/database');
 const mysql = require('mysql2/promise');
@@ -9,12 +9,13 @@ async function main() {
     assert.equal(proximaFecha('2026-01-01', 100, 'Bajo'), '2026-05-06');
     assert.equal(proximaFecha('2026-01-01', 100, 'Normal'), '2026-04-11');
     assert.equal(proximaFecha('2026-01-01', 100, 'Alto'), '2026-03-17');
-    const connection = await mysql.createConnection({ ...require('../src/db-config'), dateStrings: true });
+    assert(process.env.DB_NAME?.endsWith('_sqa_test'), 'Usa una base separada cuyo nombre termine en _sqa_test.');
+    const connection = await mysql.createConnection({ ...require('../src/config'), dateStrings: true });
     try {
         const [engines] = await connection.query("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME IN ('clientes','vehiculos','ordenes_trabajo','orden_repuestos','detalle_servicio','historial_kilometraje','servicios','recordatorios')");
         assert(engines.every(t => t.ENGINE === 'InnoDB'), 'Las pruebas requieren tablas transaccionales.');
         await connection.beginTransaction();
-        // Los commits de la aplicacion se sustituyen por savepoints para revertir todo al final.
+        // Se usan puntos de guardado para deshacer los cambios de la prueba al terminar.
         const proxy = {
             execute: connection.execute.bind(connection), query: connection.query.bind(connection),
             beginTransaction: () => connection.query('SAVEPOINT app_test'),
@@ -210,4 +211,4 @@ async function main() {
         console.log('OK: relaciones, historial, mantenimiento, dashboard y eliminaciones de clientes y vehiculos.');
     } finally { await connection.rollback(); await connection.end(); }
 }
-main().catch(error => { console.error(error); process.exitCode = 1; });
+require('node:test').test('Integracion real: clientes, vehiculos, ordenes e historial en MySQL', main);

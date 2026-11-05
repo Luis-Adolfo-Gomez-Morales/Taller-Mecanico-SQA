@@ -1,4 +1,4 @@
--- Datos de prueba idempotentes para MySQL 5.1.
+-- Datos de ejemplo que no se repiten si ya existen.
 -- Version corregida: MySQL 5.1 requiere FROM DUAL en INSERT ... SELECT.
 USE taller_ttc;
 

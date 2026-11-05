@@ -1,12 +1,9 @@
-# Uso local con MySQL 5.1
+# Uso con MySQL 5.1
 
-La base local fue migrada mediante `database/03-migracion-fase-2-mysql51.sql`.
+El proyecto conserva compatibilidad con una instalaci?n anterior de MySQL 5.1.45. El pipeline utiliza una base temporal MySQL 8.0 para comprobar las operaciones en GitHub.
 
-Para nuevas instalaciones con MySQL 5.1, ejecutar en este orden:
+Para comenzar desde una base vac?a se recomienda seguir el README y usar `npm run db:test:prepare` con un nombre terminado en `_sqa_test`. El esquema actual est? en `tests/fixtures/schema.sql` y sus datos de inicio son ficticios.
 
-1. `database/03-migracion-fase-2-mysql51.sql`
-2. `database/05-seed-mysql51.sql`
+Para una instalaci?n antigua, revisar el [registro de migraciones](mysql51-migracion.md). No basta con ejecutar solamente la migraci?n 03: la aplicaci?n actual tambi?n incluye los cambios posteriores de clientes, veh?culos, mec?nicos y repuestos.
 
-El archivo `04-seed-mysql51.sql` se conserva como primera propuesta de datos de prueba, pero MySQL 5.1 requiere `FROM DUAL` en sus sentencias `INSERT ... SELECT`. Utiliza la versión corregida `05-seed-mysql51.sql`.
-
-La capa de acceso a las nuevas tablas está en `src/maintenance-layer.js`. Es independiente de los módulos visuales existentes y fue validada contra la base local antes de integrarse al IPC en la siguiente capa funcional.
+La configuraci?n personal se copia desde `src/db-config.example.js` y queda fuera de Git. No publicar respaldos ni datos reales en el repositorio.

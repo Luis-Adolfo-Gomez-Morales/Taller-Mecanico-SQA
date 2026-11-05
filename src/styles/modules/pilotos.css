@@ -342,7 +342,7 @@
     overflow-wrap:anywhere;
 }
 
-/* Distribucion de la ficha: identificacion alta y vehiculos bajo licencia/contacto. */
+/* Los datos del cliente van arriba y sus vehiculos debajo. */
 #formPiloto{
     grid-template-columns:repeat(3, minmax(0, 1fr));
     grid-template-areas:

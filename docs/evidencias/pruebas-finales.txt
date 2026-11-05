@@ -1,0 +1,92 @@
+Fecha: 2026-11-04. Entorno local: Node.js 22.22.3 y MySQL 5.1 en base separada.
+Comando: npm.cmd run test:coverage
+Codigo de salida: 0
+
+
+> taller-mecanico@1.0.0 test:coverage
+> node scripts/test-ci.js
+
+✔ Cada campo debe estar presente, con contenido real y dentro del largo de su columna (7.0248ms)
+✔ Se rechazan correo, estados, fechas imposibles y asignaciones pendientes (3.1187ms)
+✔ Individual y Empresa requieren todos sus datos y se normalizan espacios (0.7184ms)
+✔ Contacto empresa opcional se normaliza a null y estado no se acepta del formulario (0.8155ms)
+✔ Un propietario se registra sin vehiculo y no acepta una placa como relacion (0.8851ms)
+✔ Correo conserva dominios con subdominios y rechaza separadores o espacios invalidos (1.0257ms)
+✔ Cada instancia consulta la conexion recibida sin compartir datos (3.0463ms)
+✔ Historial filtra, pagina y limpia datos ante un error (18.9777ms)
+✔ Cobertura: rechaza vehiculo sin cliente (13.312ms)
+✔ Cobertura: rechaza propietario vacio (1.0173ms)
+✔ Cobertura: rechaza cliente inexistente (0.7671ms)
+✔ Cobertura: rechaza nivel de uso invalido (0.8208ms)
+✔ Cobertura: registra vehiculo e historial (1.191ms)
+✔ Cobertura: rechaza vehiculo inexistente al editar (0.8156ms)
+✔ Cobertura: rechaza orden con estado invalido (0.9263ms)
+✔ Cobertura: rechaza orden sin vehiculo (0.4753ms)
+✔ Cobertura: rechaza orden inexistente (0.4755ms)
+✔ Cobertura: rechaza mecanico invalido (0.8476ms)
+✔ Cobertura: rechaza seleccion de servicios invalida (1.2123ms)
+✔ Cobertura: rechaza servicio con identificador invalido (2.1968ms)
+✔ Cobertura: rechaza servicio inactivo (0.7615ms)
+✔ Cobertura: genera recordatorios (0.6879ms)
+✔ Cobertura: dashboard sin mantenimientos (2.5761ms)
+✔ Cobertura: dashboard identifica servicio vencido (2.7523ms)
+✔ Dias restantes usan calendario local: hoy, futuro y vencido (7.9104ms)
+✔ Estados respetan limites y la referencia mas urgente (4.5112ms)
+✔ Acepta un kilometraje válido (3.5698ms)
+✔ Acepta kilometraje cero (0.259ms)
+✔ Redondea kilometraje a dos decimales (0.2117ms)
+✔ Rechaza kilometraje negativo (0.4668ms)
+✔ Rechaza kilometraje vacío (0.2201ms)
+✔ Rechaza kilometraje no numérico (0.1998ms)
+✔ Rechaza kilometraje infinito (0.3144ms)
+✔ Calcula próxima fecha con uso normal (1.6196ms)
+✔ Calcula próxima fecha con uso bajo (0.2558ms)
+✔ Calcula próxima fecha con uso alto (0.2457ms)
+✔ Rechaza nivel de uso inválido (0.3278ms)
+✔ Rechaza fecha inválida (0.3739ms)
+✔ No calcula fecha cuando días es cero (0.2431ms)
+✔ Rechaza kilometraje menor al registrado sin modificar MySQL (4.7326ms)
+✔ Actualiza kilometraje y registra historial correctamente (1.4387ms)
+✔ Ejecuta rollback cuando falla MySQL (0.9658ms)
+OK: relaciones, historial, mantenimiento, dashboard y eliminaciones de clientes y vehiculos.
+✔ Integracion real: clientes, vehiculos, ordenes e historial en MySQL (401.0874ms)
+✔ vehiculos: consulta vacia, fallo y recuperacion sin datos ficticios (20.7954ms)
+✔ pilotos: consulta vacia, fallo y recuperacion sin datos ficticios (7.0874ms)
+✔ ordenes-trabajo: consulta vacia, fallo y recuperacion sin datos ficticios (41.7344ms)
+✔ repuestos: consulta vacia, fallo y recuperacion sin datos ficticios (6.1204ms)
+✔ Consulta de cliente oculta agregar vehiculo; edicion lo conserva (3.488ms)
+✔ Ordenes usa existencia actual de inventario y no sustituye referencias perdidas por cero (5.8514ms)
+✔ Estado solo visible en edicion; cancelar no escribe y confirmar actualiza el indicador (6.1206ms)
+✔ Busqueda de vehiculos alterna placa, nombre y modelo sin perder espacios (9.0097ms)
+✔ Indicadores de ordenes filtran mes y anio de creacion, conservando inventario actual (6.5343ms)
+✔ Busqueda de ordenes: placa, cliente, numero y mecanico con formato automatico (8.1835ms)
+✔ Placa autocompleta vehiculo y cliente sin cambiar los campos manuales (5.0819ms)
+✔ Campos automaticos bloqueados y casilla Pinchazo disponible al editar (5.8494ms)
+✔ Seleccion unica dentro del campo y servicio por cualquier palabra (5.4141ms)
+✔ Acciones de estado cancelan o avanzan sin perder los datos de la orden (7.3965ms)
+✔ Los controles rechazan advertencias y cobertura insuficiente (1228.1383ms)
+✔ Confirmacion cancelable, avisos en cola y texto seguro (11.3226ms)
+✔ El creador procede de la sesion de la ventana, no del formulario (5.4755ms)
+ℹ tests 60
+ℹ suites 0
+ℹ pass 60
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1565.2635
+ℹ start of coverage report
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ file                    | line % | branch % | funcs % | uncovered lines
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ src                     |        |          |         | 
+ℹ  config.js              | 100.00 |    33.33 |  100.00 | 
+ℹ  database.js            |  71.90 |    70.90 |   74.07 | 22-29 88-98 100-115 305-308 358-361 363-382 384-387 389-403 405-471 473-477 479-489 491-514 642-643 668-698
+ℹ  maintenance-layer.js   |  36.07 |   100.00 |   20.00 | 7-8 11-13 16-32 35-51
+ℹ  maintenance-rules.js   |  97.98 |    90.29 |   95.45 | 86-87 207-209
+ℹ  scripts                |        |          |         | 
+ℹ   cliente-validation.js |  98.18 |    89.19 |  100.00 | 54
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ all files               |  77.10 |    81.46 |   77.38 | 
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report

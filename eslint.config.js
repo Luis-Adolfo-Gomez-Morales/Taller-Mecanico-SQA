@@ -1,7 +1,8 @@
 
 module.exports = [
+  { ignores: ["build/**", "coverage/**", "reports/**"] },
   {
-    files: ["src/**/*.js", "scripts/**/*.js", "tests/**/*.js"],
+    files: ["main.js", "src/**/*.js", "scripts/**/*.js", "tests/**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "commonjs"

@@ -1,192 +1,78 @@
-# Plan de Aseguramiento de Calidad del Software (SQA)
+# Plan de aseguramiento de calidad (SQA)
 
-**Proyecto:** Sistema de Gestión de Taller Mecánico  
-**Asignatura:** Calidad de Software  
-**Versión del documento:** 1.0  
-**Estado:** En ejecución y seguimiento
+Proyecto: Taller Mec?nico. Curso: Aseguramiento de la Calidad del Software. Revisi?n: 4 de noviembre de 2026.
 
-## 1. Introducción
+## Prop?sito y alcance
 
-El presente Plan de Aseguramiento de Calidad del Software (SQA) establece las actividades, herramientas, criterios y mecanismos de verificación utilizados para evaluar la calidad del Sistema de Gestión de Taller Mecánico.
+El objetivo es revisar los cambios de una aplicaci?n existente antes de aceptarlos. Se comprueban datos de clientes, kilometraje, mantenimiento, ?rdenes, inventario e historial. Tambi?n se revisan algunas acciones de las pantallas con datos simulados.
 
-El sistema es una aplicación de escritorio desarrollada con Electron, JavaScript y MySQL, orientada a la administración de clientes, vehículos, órdenes de trabajo, servicios y mantenimientos preventivos.
+Se mantuvo Electron, JavaScript y MySQL porque el sistema viene de un proyecto anterior. El enunciado permite esa opci?n. No se incluyen pruebas de carga ni un despliegue en la nube. Las pruebas de pantalla no reemplazan una revisi?n manual de la aplicaci?n abierta.
 
-El plan busca identificar defectos, verificar el funcionamiento de las reglas de negocio, promover buenas prácticas de programación y automatizar controles de calidad durante el desarrollo.
+## Referencias y reglas de trabajo
 
-## 2. Objetivo general
+Se tom? como referencia el modelo de calidad ISO/IEC 25010:2023 para ordenar los aspectos de funcionamiento, confiabilidad, seguridad y facilidad de mantenimiento. Este trabajo es una aplicaci?n acad?mica de esas ideas; no es una certificaci?n. La referencia oficial est? en [ISO](https://www.iso.org/standard/78176.html).
 
-Establecer y aplicar un proceso de aseguramiento de calidad que permita verificar el funcionamiento, la mantenibilidad y la confiabilidad del Sistema de Gestión de Taller Mecánico mediante pruebas automatizadas, análisis estático y un pipeline de integración continua.
+Las reglas del proyecto son mantener las validaciones en funciones que se puedan probar, usar consultas con par?metros, explicar los cambios con comentarios breves en espa?ol y guardar claves fuera de Git. Se usa la configuraci?n de ESLint del repositorio y una matriz con entradas y resultados para revisar las pruebas.
 
-## 3. Objetivos específicos
+## Actividades
 
-- Definir criterios de calidad para los componentes del sistema.
-- Implementar pruebas automatizadas para validar reglas de negocio y operaciones principales.
-- Detectar problemas de programación mediante ESLint.
-- Medir la cobertura de código alcanzada por las pruebas.
-- Automatizar las verificaciones mediante GitHub Actions.
-- Registrar resultados y evidencias para facilitar la evaluación y mejora continua.
+| Momento | Actividad | Evidencia |
+|---|---|---|
+| Antes de cambiar | Medir una versi?n anterior y anotar los problemas | L?nea base y archivos de evidencia |
+| Durante el cambio | Corregir el problema y revisar el c?digo | Diferencias del commit y pruebas |
+| Antes de integrar | Abrir un pull request y ejecutar los controles | Build, test, analyze y report |
+| Despu?s de ejecutar | Comparar resultados y anotar pendientes | Reporte de mejora y deuda t?cnica |
+| Antes de entregar | Probar el uso y preparar la demostraci?n | Manual de uso y entrega externa |
 
-## 4. Alcance del plan
+El estudiante es responsable de mantener el c?digo, revisar los resultados y describir las limitaciones. Si participa un compa?ero, puede revisar el pull request. El autor no puede aprobar su propio cambio como si fuera otra persona.
 
-El aseguramiento de calidad comprende los siguientes componentes y procesos:
+## Pruebas y herramientas
 
-- Validación de información de clientes y vehículos.
-- Reglas de mantenimiento preventivo.
-- Control y actualización del kilometraje.
-- Registro e historial de operaciones.
-- Validaciones relacionadas con órdenes de trabajo.
-- Pruebas de integración utilizando conexiones simuladas cuando corresponde.
-- Análisis estático del código JavaScript.
-- Ejecución automatizada de pruebas y controles de cobertura.
+- Unitarias: validaci?n de clientes, fechas y kilometraje con Node Test Runner.
+- Integraci?n simulada: operaciones y errores con conexiones de prueba, sin un servidor MySQL.
+- Integraci?n real: operaciones de clientes, veh?culos, ?rdenes, repuestos e historial en una base separada.
+- Regresi?n: repetir todos los casos despu?s de cambiar el proyecto.
+- Revisi?n autom?tica: ESLint y la integraci?n nativa de SonarQube Cloud.
+- Revisi?n manual: leer el cambio, comprobar mensajes y seguir los pasos del manual de uso.
 
-El plan se concentra en los componentes incluidos en las pruebas y verificaciones configuradas. No representa una certificación de que todas las funcionalidades de la aplicación estén libres de defectos.
+Git conserva los cambios. GitHub Actions ejecuta el proceso y guarda los reportes. La integraci?n real se ejecuta en MySQL 8.0 temporal en GitHub y se verific? localmente con MySQL 5.1.
 
-## 5. Herramientas utilizadas
+## Criterios de aceptaci?n
 
-| Herramienta | Aplicación en el proyecto |
+| Control | Criterio | Qu? pasa si no cumple |
+|---|---|---|
+| Build | Sintaxis correcta y c?digo preparado | Falla build |
+| Pruebas | Cero fallos | Falla test |
+| Cobertura | Al menos 60 % de l?neas de src cargadas por las pruebas | Falla test |
+| ESLint | Cero errores y cero advertencias | Falla analyze |
+| SonarQube | Estado success del control nativo del mismo commit | Falla analyze si rechaza o no responde |
+| Reporte | Todas las etapas anteriores aprobadas | Falla report y se guardan los resultados disponibles |
+| Revisi?n | Revisar el pull request antes de unirlo | La protecci?n de rama debe impedir la uni?n si falta un control |
+
+La cobertura excluye los archivos personales de conexi?n y los tests. El resultado local actual es 77,10 %, pero no corresponde a toda la aplicaci?n: varias pantallas se ejecutan dentro de simulaciones y no aparecen en el reporte de Node. La cobertura del panel SonarQube no se importa mientras se use su an?lisis autom?tico.
+
+## M?tricas
+
+Se registran pruebas ejecutadas y aprobadas, errores y advertencias de ESLint, cobertura de l?neas, ramas y funciones, estado de las etapas e incidencias de SonarQube. La l?nea base se reconstruy? desde el commit `d915beb`, sin cambiar la rama de trabajo.
+
+La comprobaci?n local m?s reciente tiene 60 pruebas aprobadas, cero fallos y ESLint sin problemas. Los valores completos y su alcance est?n en [Reporte-Mejora.md](Reporte-Mejora.md). No se inventan porcentajes ni m?tricas privadas de SonarQube que no se hayan podido consultar.
+
+## Atenci?n de problemas
+
+Primero se registra el archivo y el problema. Despu?s se corrige la causa, se repiten las pruebas y se vuelve a revisar el an?lisis. Los pendientes se anotan con prioridad en [deuda-tecnica.md](deuda-tecnica.md). Una alerta se marca como falso positivo solo despu?s de revisar el c?digo y explicar el motivo.
+
+## Riesgos
+
+| Riesgo | Medida |
 |---|---|
-| Visual Studio Code | Edición, revisión y mantenimiento del código |
-| Git | Control de versiones y seguimiento de modificaciones |
-| GitHub | Almacenamiento del repositorio |
-| GitHub Actions | Automatización de verificaciones de calidad |
-| Node.js | Ejecución de pruebas y herramientas |
-| Node Test Runner | Pruebas automatizadas |
-| ESLint | Análisis estático del código |
-| Electron | Plataforma de la aplicación de escritorio |
-| MySQL | Gestión de información persistente |
+| Cambiar datos del taller durante una prueba | Base separada cuyo nombre termina en _sqa_test; las escrituras del caso se revierten |
+| Subir claves personales | Configuraci?n local excluida y variables de entorno en CI |
+| Aceptar c?digo con fallos | Controles obligatorios y revisi?n mediante pull request |
+| Mostrar una cobertura que no corresponde | Indicar los archivos medidos y separar la interfaz simulada |
+| No recibir resultado de SonarQube | Detener analyze y revisar la conexi?n del repositorio |
+| Saltarse la revisi?n al subir cambios | Main protegida incluso para el administrador; PR y controles obligatorios |
+| Dar por realizadas pruebas manuales sin hacerlas | Marcar los pasos como pendientes hasta ejecutarlos |
 
-## 6. Estrategia de aseguramiento de calidad
+## Seguimiento
 
-### 6.1 Pruebas automatizadas
-
-Se utilizan pruebas automatizadas para comprobar comportamientos esperados del sistema y detectar regresiones después de realizar modificaciones.
-
-Las pruebas consideran validaciones, reglas de mantenimiento, operaciones con datos simulados y comportamientos específicos de los módulos evaluados.
-
-**Resultado verificado:**
-
-- Pruebas ejecutadas: 56.
-- Pruebas aprobadas: 56.
-- Pruebas fallidas: 0.
-- Pruebas omitidas: 0.
-
-### 6.2 Análisis estático
-
-Se utiliza ESLint para revisar el código JavaScript e identificar problemas relacionados con las reglas de programación configuradas.
-
-Durante la revisión se detectaron advertencias relacionadas con comparaciones y elementos declarados que no se utilizaban.
-
-Posteriormente, se realizaron correcciones y se ejecutó nuevamente el análisis.
-
-**Resultado final local:**
-
-- Errores: 0.
-- Advertencias: 0.
-
-El análisis también fue ejecutado exitosamente dentro de GitHub Actions.
-
-### 6.3 Cobertura de pruebas
-
-La cobertura permite identificar qué proporción del código instrumentado fue ejecutada durante las pruebas.
-
-Los resultados registrados en GitHub Actions, ejecución número 13, fueron:
-
-| Indicador | Resultado |
-|---|---:|
-| Cobertura global de líneas | 98.07% |
-| Cobertura global de ramas | 84.87% |
-| Cobertura global de funciones | 86.98% |
-| Líneas de `maintenance-rules.js` | 94.33% |
-| Líneas de `cliente-validation.js` | 97.87% |
-
-**Consideración:** La cobertura global reportada incluye archivos de pruebas. Por ello, debe interpretarse como cobertura del conjunto instrumentado y no como cobertura exclusiva de todo el código productivo.
-
-La verificación de cobertura mínima configurada en el pipeline terminó satisfactoriamente.
-
-### 6.4 Integración continua
-
-Se utiliza GitHub Actions para ejecutar automáticamente controles de calidad cuando se realizan cambios en el repositorio, de acuerdo con los eventos configurados en el workflow.
-
-El proceso incluye:
-
-1. Descarga del código fuente.
-2. Configuración de Node.js.
-3. Instalación de dependencias.
-4. Análisis estático con ESLint.
-5. Ejecución de pruebas y medición de cobertura.
-6. Verificación del umbral mínimo de cobertura.
-
-**Evidencia:** Ejecución número 13, commit `0faa7a4`, finalizada correctamente.
-
-## 7. Criterios de aceptación de calidad
-
-| Criterio | Condición de aceptación |
-|---|---|
-| Pruebas automatizadas | Ninguna prueba fallida |
-| Análisis estático | Ningún error ni advertencia de ESLint |
-| Cobertura | Cumplimiento del umbral mínimo configurado |
-| Integración continua | Finalización exitosa del pipeline |
-| Control de versiones | Cambios registrados mediante commits |
-| Evidencias | Resultados verificables de las ejecuciones |
-
-## 8. Gestión de defectos y mejoras
-
-Los problemas detectados durante las verificaciones deben registrarse y atenderse según su impacto.
-
-El procedimiento consiste en:
-
-1. Identificar el defecto o advertencia.
-2. Determinar el archivo y componente afectado.
-3. Analizar la causa.
-4. Aplicar una corrección controlada.
-5. Ejecutar nuevamente las pruebas automatizadas.
-6. Repetir el análisis estático.
-7. Registrar el cambio mediante Git.
-8. Verificar los resultados en GitHub Actions.
-
-Este procedimiento permite reducir el riesgo de introducir nuevos defectos durante las correcciones.
-
-## 9. Indicadores de seguimiento
-
-Los indicadores utilizados para evaluar los resultados son:
-
-- Número de pruebas ejecutadas.
-- Porcentaje de pruebas aprobadas.
-- Número de pruebas fallidas.
-- Número de errores y advertencias de ESLint.
-- Cobertura de líneas, ramas y funciones.
-- Estado de las ejecuciones del pipeline.
-- Cambios registrados en el repositorio.
-
-Estos indicadores permiten comparar resultados entre diferentes momentos del desarrollo.
-
-## 10. Riesgos y acciones preventivas
-
-| Riesgo | Acción preventiva |
-|---|---|
-| Introducción de defectos al modificar código | Ejecutar pruebas de regresión |
-| Validaciones incorrectas | Mantener pruebas de reglas de negocio |
-| Problemas de mantenibilidad | Aplicar análisis estático |
-| Cobertura insuficiente | Revisar casos no cubiertos |
-| Fallos de integración | Ejecutar el pipeline después de los cambios |
-| Dependencias desactualizadas | Revisar advertencias y planificar actualizaciones compatibles |
-
-## 11. Evidencias del aseguramiento de calidad
-
-Las evidencias del proyecto incluyen:
-
-- Resultados de las pruebas automatizadas.
-- Resultados del análisis ESLint.
-- Reportes de cobertura.
-- Historial de ejecuciones de GitHub Actions.
-- Commits asociados con las correcciones.
-
-La ejecución número 13 de GitHub Actions demuestra la finalización exitosa de los controles configurados.
-
-## 12. Seguimiento y mejora continua
-
-El aseguramiento de calidad debe mantenerse durante las siguientes modificaciones del proyecto.
-
-Cada cambio relevante deberá verificarse mediante pruebas, análisis estático y ejecución del pipeline.
-
-Los resultados obtenidos servirán como referencia para evaluar mejoras, identificar problemas pendientes y respaldar las conclusiones del proyecto académico.
+Despu?s de cambios relevantes se ejecutan build, lint y las pruebas. Antes de la entrega se revisa la ejecuci?n remota, la protecci?n de main y las incidencias pendientes. La presentaci?n y el video quedan fuera de GitHub seg?n la forma de entrega acordada.

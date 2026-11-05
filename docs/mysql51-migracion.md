@@ -1,25 +1,22 @@
-# Migración local: MySQL 5.1
+# Cambios de la base MySQL 5.1
 
-La instancia local usa MySQL 5.1.45. Por compatibilidad, la implementación de fase 2 se aplica en capas y no reemplaza las tablas que ya usa la aplicación Electron.
+Estos archivos muestran c?mo cambi? una base que ya exist?a. Antes de aplicarlos se debe hacer un respaldo y revisar las tablas actuales. No se ejecutan todos de nuevo sobre una base actualizada.
 
-## Migración aplicada
+| Archivo | Cambio principal |
+|---|---|
+| 03-migracion-fase-2-mysql51.sql | Agrega propietarios, servicios, historial y recordatorios |
+| 05-seed-mysql51.sql | Datos de ejemplo para esa primera etapa |
+| 07-normalizar-clientes-con-compatibilidad-mysql51.sql | Re?ne la informaci?n en clientes y vincula veh?culos |
+| 08-vista-compatibilidad-propietarios-mysql51.sql | Conserva una vista para el c?digo de esa etapa |
+| 09-alertas-relacion-vehiculo-mysql51.sql | Actualiza las alertas por veh?culo |
+| 10-simplificar-clientes-mysql51.sql | Simplifica datos del cliente |
+| 11-simplificar-vehiculos-mysql51.sql | Retira campos que dejaron de usarse |
+| 12-propietario-manual-vehiculos-mysql51.sql | Separa el propietario escrito del cliente vinculado |
+| 13-retirar-compatibilidad-clientes-mysql51.sql | Retira vistas antiguas y la placa guardada en clientes |
+| 14-tipo-trabajo-pinchazo-mysql51.sql | Agrega el tipo de trabajo de pinchazo |
+| 15-mecanicos-mysql51.sql | Agrega el cat?logo de mec?nicos |
+| 16-descuento-repuestos-orden-mysql51.sql | Controla las cantidades de repuestos descontadas |
 
-El archivo `database/03-migracion-fase-2-mysql51.sql` agrega:
+Los archivos 01 y 02 son una propuesta anterior. No deben usarse como si fueran la instalaci?n actual completa. El archivo 09-respaldo-vista-local.sql conserva una definici?n anterior de la vista y no es una migraci?n para repetir.
 
-- Tabla `propietarios`.
-- Tabla `servicios`.
-- Tabla `detalle_servicio`, relacionada con `ordenes_trabajo`.
-- Tabla `historial_kilometraje`, relacionada con `vehiculos` y, opcionalmente, con la orden.
-- Tabla `recordatorios`.
-- Campos opcionales en `vehiculos`: `id_propietario`, `nivel_uso`, `anio`, `fecha_registro` y `observaciones`.
-- Vista `vw_mantenimientos_alerta`.
-
-No elimina tablas, no borra registros, no cambia columnas existentes y no modifica las vistas HTML/CSS actuales. Los módulos existentes continuarán usando sus campos actuales mientras la capa de datos incorpora gradualmente las nuevas relaciones.
-
-## Datos de prueba
-
-`database/04-seed-mysql51.sql` crea, solo si no existen, un propietario y tres servicios de ejemplo. Puede ejecutarse más de una vez sin duplicar esos registros.
-
-## Compatibilidad
-
-El archivo `database/01-schema.sql` representa el modelo objetivo para MySQL 8. No debe ejecutarse sobre la instancia MySQL 5.1 existente. Para el entorno local se usa exclusivamente la migración `03` y los datos de prueba `04`.
+La instalaci?n de prueba desde cero se prepara con `tests/fixtures/schema.sql` mediante el comando del README. Esa opci?n evita depender de una base antigua y no incluye registros del taller.

@@ -1,4 +1,4 @@
-// Reglas para el esquema MySQL 5.1 normalizado (migraciones 03 y 07).
+// Reglas de kilometraje y mantenimiento para la base del taller.
 function kilometrajeValido(value) {
     const km = Number(value);
     if (value === '' || value === null || value === undefined || !Number.isFinite(km) || km < 0 || km > 9999999999.99) {
@@ -151,7 +151,7 @@ function createRules(pool) {
         const nuevoKm = !anterior || !historia.length || Number(anterior.kilometraje) !== orden.kilometraje;
         if (nuevoKm) await validarKm(connection, vehiculo, orden.kilometraje);
         if (anterior?.estado === 'Finalizada' && (Number(anterior.kilometraje) !== orden.kilometraje || anterior.fecha_salida !== (orden.fechaSalida || null))) throw new Error('No se puede modificar la fecha o kilometraje de un servicio finalizado.');
-        // Estas columnas son una instantanea de la atencion, no el catalogo actual.
+        // Se guardan los datos que tenia el vehiculo al recibir la atencion.
         orden.placa = anterior?.placa || vehiculo.placa;
         orden.vehiculo = anterior?.vehiculo ?? vehiculo.modelo;
         orden.marca = anterior?.marca ?? vehiculo.marca;
@@ -202,7 +202,7 @@ function createRules(pool) {
                 else await connection.execute(`INSERT INTO detalle_servicio (fecha_realizado, kilometraje_servicio, trabajo_realizado, nivel_uso, fecha_proximo_servicio, estado_mantenimiento, id_orden, id_servicio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [...valores, id, idServicio]);
             }
         }
-        // Para llamadas anteriores a la nueva interfaz, finalizar tambien los detalles pendientes.
+        // Al finalizar tambien se actualizan los servicios que estaban pendientes.
         if (orden.estado === 'Finalizada' && orden.servicios === undefined) {
             const [detalles] = await connection.execute("SELECT id_servicio FROM detalle_servicio WHERE id_orden = ? AND estado_mantenimiento <> 'Cancelado'", [id]);
             await completarOrden(connection, id, { ...orden, servicios: detalles.map(d => d.id_servicio) }, { ...contexto, nuevoKm: false });

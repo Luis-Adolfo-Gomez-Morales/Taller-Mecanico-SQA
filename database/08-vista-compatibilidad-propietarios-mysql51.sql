@@ -1,4 +1,4 @@
--- Compatibilidad para la capa incremental creada antes de normalizar clientes.
+-- Vista usada durante el cambio de propietarios a clientes.
 USE taller_ttc;
 
 CREATE VIEW propietarios AS

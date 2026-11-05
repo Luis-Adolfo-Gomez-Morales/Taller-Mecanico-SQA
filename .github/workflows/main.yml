@@ -1,4 +1,3 @@
-
 name: Calidad de Software - Taller Mecanico
 
 on:
@@ -12,32 +11,114 @@ permissions:
   contents: read
 
 jobs:
-  pruebas:
-    name: Pruebas automatizadas y calidad
+  build:
+    name: build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Descargar codigo
-        uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: '22.22.3'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Revisar sintaxis y preparar entrega
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codigo-preparado
+          path: build/
+          retention-days: 14
 
-      - name: Instalar dependencias
-        run: npm ci --ignore-scripts
-
-      - name: Analizar codigo con ESLint
-        run: npm run lint
-
-      - name: Ejecutar pruebas y medir cobertura
+  test:
+    name: test
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${{ secrets.CI_MYSQL_PASSWORD }}
+      DB_NAME: taller_ci_sqa_test
+      RUN_DB_TESTS: '1'
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.CI_MYSQL_PASSWORD }}
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Preparar base vacia de pruebas
+        run: npm run db:test:prepare
+      - name: Ejecutar pruebas y exigir cobertura minima de 60 por ciento
         run: npm run test:coverage
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultados-pruebas
+          path: |
+            reports/tests.txt
+            coverage/lcov.info
+          if-no-files-found: error
+          retention-days: 14
 
-      - name: Verificar cobertura minima
-        run: |
-          node --test --experimental-test-coverage \
-            --test-coverage-include='src/**/*.js' \
-            --test-coverage-lines=60 \
-            tests/*.test.js
+  analyze:
+    name: analyze
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Exigir cero errores y cero advertencias
+        run: npm run lint
+      - name: Comprobar el resultado de la integracion nativa de SonarQube
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/check-sonar.js
+
+  report:
+    name: report
+    needs: [build, test, analyze]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.3'
+      - uses: actions/download-artifact@v4
+        if: needs.test.result == 'success' || needs.test.result == 'failure'
+        with:
+          name: resultados-pruebas
+          path: .
+      - name: Publicar resumen y comprobar las etapas
+        if: always()
+        env:
+          STAGE_RESULTS: ${{ toJSON(needs) }}
+        run: node scripts/report.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reporte-calidad
+          path: reports/
+          if-no-files-found: error
+          retention-days: 14

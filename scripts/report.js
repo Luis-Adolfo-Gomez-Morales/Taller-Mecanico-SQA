@@ -1,0 +1,11 @@
+const fs = require('node:fs');
+fs.mkdirSync('reports', { recursive: true });
+const states = JSON.parse(process.env.STAGE_RESULTS || '{}');
+let report = '# Resultado de calidad\n\n';
+for (const [stage, state] of Object.entries(states)) report += `- ${stage}: ${state.result}\n`;
+if (fs.existsSync('reports/tests.txt')) report += '\n```text\n' + fs.readFileSync('reports/tests.txt', 'utf8') + '\n```\n';
+else report += '\nNo se genero el reporte de pruebas. Revisar las etapas anteriores.\n';
+report += '\nLa cobertura corresponde a los archivos de src cargados por las pruebas; no mide toda la interfaz.\n';
+fs.writeFileSync('reports/resumen.md', report);
+if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, report);
+if (Object.values(states).some(stage => stage.result !== 'success')) process.exitCode = 1;
