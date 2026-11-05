@@ -23,12 +23,26 @@ async function main() {
         };
         const pool = { ...proxy, getConnection: async () => proxy };
         const db = createDatabase(pool);
+        for (const value of [null, '', '   ', 'Ana', '  Ana  ', 'Ñ', '\t']) {
+            const [checks] = await connection.execute("SELECT TRIM(?) = '' AS anterior_vacio, CHAR_LENGTH(TRIM(?)) = 0 AS nuevo_vacio, TRIM(?) <> '' AS anterior_nombre, CHAR_LENGTH(TRIM(?)) > 0 AS nuevo_nombre", [value, value, value, value]);
+            assert.equal(checks[0].nuevo_vacio, checks[0].anterior_vacio);
+            assert.equal(checks[0].nuevo_nombre, checks[0].anterior_nombre);
+        }
         const [usuarios] = await connection.query("SELECT id_usuario FROM usuarios WHERE estado = 'Activo' LIMIT 1");
         assert(usuarios.length, 'Se requiere un usuario activo para la prueba');
         const idUsuario = usuarios[0].id_usuario;
         const crearVehiculoPrueba = datos => db.createVehiculo(datos, idUsuario);
         await assert.rejects(db.createVehiculo({}, undefined), /Inicia sesion/);
         const suffix = String(Date.now()).slice(-9);
+        const authPassword = require('node:crypto').randomBytes(24).toString('hex');
+        const [authUser] = await connection.execute("INSERT INTO usuarios (usuario, password_hash, nombre, estado) VALUES (?, ?, 'Usuario de prueba', 'Activo')", ['auth' + suffix, authPassword]);
+        assert.equal((await db.authenticateUser('auth' + suffix, authPassword)).id, authUser.insertId);
+        const [authRows] = await connection.execute('SELECT password_hash FROM usuarios WHERE id_usuario = ?', [authUser.insertId]);
+        assert(authRows[0].password_hash.startsWith('scrypt$'));
+        assert.equal((await db.authenticateUser('auth' + suffix, authPassword)).id, authUser.insertId);
+        assert.equal(await db.authenticateUser('auth' + suffix, 'incorrecta'), null);
+        await connection.execute("UPDATE usuarios SET estado = 'Inactivo' WHERE id_usuario = ?", [authUser.insertId]);
+        assert.equal(await db.authenticateUser('auth' + suffix, authPassword), null);
         const mecanico = await db.saveMecanico(null, {nombre:'Mecanico prueba', edad:30, dpi:'8000'+suffix, correo:'prueba@example.com', direccion:'Direccion ficticia', fecha_contratacion:'2026-01-01'});
         assert(mecanico.fecha_registro);
         const actualizadoMecanico = await db.saveMecanico(mecanico.id_mecanico, {...mecanico, edad:31});
