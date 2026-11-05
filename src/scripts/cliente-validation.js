@@ -12,6 +12,14 @@
         ['direccion', 'Direccion', 255],
     ];
 
+    function correoValido(correo) {
+        const partes = correo.split('@');
+        if (partes.length !== 2 || !partes[0] || /\s/.test(correo)) return false;
+        const dominio = partes[1];
+        const punto = dominio.lastIndexOf('.');
+        return punto > 0 && punto < dominio.length - 1;
+    }
+
     function validarCliente(value) {
         if (!value || typeof value !== 'object') throw new Error('Los datos del cliente son obligatorios.');
         const source = value;
@@ -24,7 +32,7 @@
             if (cliente[key].length > max) throw new Error(`${label} admite como maximo ${max} caracteres.`);
         }
         if (!['Individual', 'Empresa'].includes(cliente.tipoPersona)) throw new Error('Selecciona un tipo de persona valido.');
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cliente.correo)) throw new Error('Ingresa un correo valido.');
+        if (!correoValido(cliente.correo)) throw new Error('Ingresa un correo valido.');
         if (!['A', 'B', 'C', 'M'].includes(cliente.tipoLicencia)) throw new Error('Selecciona un tipo de licencia valido.');
         const fecha = new Date(cliente.venceLicencia + 'T00:00:00Z');
         if (!/^\d{4}-\d{2}-\d{2}$/.test(cliente.venceLicencia) || Number(cliente.venceLicencia.slice(0, 4)) < 1000 ||
@@ -41,7 +49,7 @@
         cliente.licencia = cliente.licencia.toUpperCase();
         return cliente;
     }
-    const api = { validarCliente, campos };
+    const api = { validarCliente, campos, correoValido };
     if (typeof module === 'object' && module.exports) module.exports = api;
     else root.clienteValidation = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

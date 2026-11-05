@@ -132,7 +132,7 @@
                 <article class="vehicle-indicator vehicle-type-indicator metric-card">
                     <span class="metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8" cy="10" r="2"/><path d="M5 16a3 3 0 0 1 6 0m4-7h4m-4 4h4m-4 3h2"/></svg></span>
                     <span>Licencia</span>
-                    <select id="filtroTipoLicenciaPiloto">
+                    <select id="filtroTipoLicenciaPiloto" aria-label="Filtrar clientes por tipo de licencia">
                         <option value="todos">Todas</option>
                         <option value="A">Tipo A</option>
                         <option value="B">Tipo B</option>
@@ -163,7 +163,8 @@
             <div class="vehicle-layout">
                 <section class="dashboard-panel vehicle-table-panel">
                     <div class="vehicle-toolbar">
-                        <label class="search-box">
+                        <label class="search-box" for="buscarPiloto">
+                            <span class="visually-hidden">Buscar clientes</span>
                             <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <circle cx="11" cy="11" r="7"></circle>
                                 <path d="M16 16l4 4"></path>
@@ -171,7 +172,7 @@
                             <input id="buscarPiloto" type="search" placeholder="Buscar por nombre, licencia o telefono">
                         </label>
 
-                        <select id="filtroEstadoPiloto">
+                        <select id="filtroEstadoPiloto" aria-label="Filtrar clientes por estado">
                             <option value="todos">Todos</option>
                             <option value="Activo">Activos</option>
 

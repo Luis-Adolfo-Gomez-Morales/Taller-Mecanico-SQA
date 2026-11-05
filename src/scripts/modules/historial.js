@@ -31,4 +31,4 @@ for (const id of ['historialBuscar','historialDesde','historialHasta']) document
 document.getElementById('historialAnterior').addEventListener('click', () => { paginaHistorial--; renderHistorial(); });
 document.getElementById('historialSiguiente').addEventListener('click', () => { paginaHistorial++; renderHistorial(); });
 document.getElementById('historialActualizar').addEventListener('click', cargarHistorial);
-cargarHistorial();
+cargarHistorial().catch(error => console.error('No se pudo completar la carga inicial:', error));

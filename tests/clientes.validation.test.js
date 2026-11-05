@@ -42,3 +42,12 @@ test('Un propietario se registra sin vehiculo y no acepta una placa como relacio
     assert.doesNotThrow(() => validarCliente(datos));
     assert.equal(validarCliente(completo).vehiculo, undefined);
 });
+
+test('Correo conserva dominios con subdominios y rechaza separadores o espacios invalidos', () => {
+    for (const correo of ['ana@example.com', 'ana@taller.example.com', 'ana+ventas@example.com']) {
+        assert.equal(validarCliente({ ...completo, correo }).correo, correo);
+    }
+    for (const correo of ['ana@@example.com', '@example.com', 'ana@example', 'ana@.com', 'ana@example.', 'ana pe@example.com', 'ana@example. com']) {
+        assert.throws(() => validarCliente({ ...completo, correo }), /correo valido/);
+    }
+});

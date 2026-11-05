@@ -70,7 +70,7 @@ function createWindow() {
         template.push({ role: 'cut', label: 'Cortar' }, { role: 'copy', label: 'Copiar' }, { role: 'paste', label: 'Pegar' }, { role: 'selectAll', label: 'Seleccionar todo' });
         Menu.buildFromTemplate(template).popup({ window: win });
     });
-    win.loadFile('src/views/login.html');
+    win.loadFile('src/views/login.html').catch(error => console.error('No se pudo cargar el inicio de sesion:', error));
 }
 
 app.whenReady().then(() => {
@@ -88,6 +88,9 @@ app.whenReady().then(() => {
             createWindow();
         }
     });
+}).catch(error => {
+    console.error('No se pudo iniciar la aplicacion:', error);
+    app.quit();
 });
 
 app.on('window-all-closed', () => {

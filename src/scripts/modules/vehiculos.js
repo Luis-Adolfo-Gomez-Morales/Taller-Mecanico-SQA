@@ -249,7 +249,10 @@ function getVehiculosFiltrados() {
 
 function getPlateSortParts(placa = '') {
     const normalized = String(placa).toUpperCase();
-    const [, letra = '', numero = '0', resto = ''] = normalized.match(/^([A-Z])-?(\d+)(.*)$/) || [];
+    const inicio = normalized.match(/^([A-Z])-?(\d+)/);
+    const resto = inicio ? normalized.slice(inicio[0].length) : '';
+    if (!inicio || /[\r\n\u2028\u2029]/u.test(resto)) return { letra: '', numero: 0, resto: '' };
+    const [, letra, numero] = inicio;
 
     return {
         letra,
@@ -467,7 +470,7 @@ cargarVehiculos().then(async cargado => {
     }
     abrirRegistroVehiculo();
     mostrarClienteEnEncabezado(cliente.id, cliente.nombre);
-});
+}).catch(error => console.error('No se pudo completar la carga inicial:', error));
 
 function escapeVehicleText(value) {
     return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));

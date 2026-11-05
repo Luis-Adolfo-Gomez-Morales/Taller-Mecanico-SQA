@@ -74,7 +74,7 @@ async function cargarDashboard() {
     }
 }
 if (tablaServiciosInicio) {
-    cargarDashboard();
+    cargarDashboard().catch(error => console.error('No se pudo completar la carga inicial:', error));
     setInterval(cargarDashboard, 60000);
     window.addEventListener('focus', cargarDashboard);
 }

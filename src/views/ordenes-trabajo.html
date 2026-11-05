@@ -156,7 +156,8 @@
 
             <section class="dashboard-panel work-order-table-panel">
                 <div class="work-order-toolbar">
-                    <label class="search-box">
+                    <label class="search-box" for="buscarOrdenTrabajo">
+                            <span class="visually-hidden">Buscar ordenes de trabajo</span>
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                             <circle cx="11" cy="11" r="7"></circle>
                             <path d="M16 16l4 4"></path>
@@ -164,7 +165,7 @@
                         <input id="buscarOrdenTrabajo" type="search" placeholder="Buscar por orden, placa, cliente o mecanico" autocomplete="off">
                     </label>
 
-                    <select id="filtroEstadoOrdenTrabajo">
+                    <select id="filtroEstadoOrdenTrabajo" aria-label="Filtrar ordenes por estado">
                         <option value="todos">Todos</option>
                         <option value="Abierta">Abiertas</option>
                         <option value="En proceso">En proceso</option>

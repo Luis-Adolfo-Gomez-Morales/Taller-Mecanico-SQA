@@ -365,7 +365,7 @@ cargarPilotos().then(cargado => {
         const index = getPilotosFiltrados().findIndex(cliente => cliente.id === id);
         if (index >= 0) verDetallePiloto(index);
     }
-});
+}).catch(error => console.error('No se pudo completar la carga inicial:', error));
 
 // Mantener indicadores, filtros y tabla al dia aunque la pantalla quede abierta.
 let actualizandoEstadosClientes = false;

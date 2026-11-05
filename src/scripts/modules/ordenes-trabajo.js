@@ -1064,7 +1064,7 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-cargarDatosOrdenes();
+cargarDatosOrdenes().catch(error => console.error('No se pudo completar la carga inicial:', error));
 
 function mostrarEstadoCargaOrdenestrabajo() {
     tablaOrdenesTrabajo.innerHTML = '<tr><td colspan="8" class="empty-row"></td></tr>';

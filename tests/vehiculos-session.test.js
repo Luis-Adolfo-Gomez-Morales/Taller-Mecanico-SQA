@@ -10,7 +10,7 @@ test('El creador procede de la sesion de la ventana, no del formulario', async (
         authenticateUser: async (user, password) => password === 'valida' ? { id: 7, usuario: user } : null,
         createVehiculo: async (data, id) => { calls.push({ data, id }); }
     };
-    const electron = { app: { whenReady: () => ({ then() {} }), on() {} }, ipcMain: { handle: (channel, fn) => handlers.set(channel, fn) } };
+    const electron = { app: { whenReady: () => new Promise(() => {}), on() {} }, ipcMain: { handle: (channel, fn) => handlers.set(channel, fn) } };
     const ctx = vm.createContext({ require: name => name === 'electron' ? electron : name === 'path' ? path : database });
     vm.runInContext(fs.readFileSync(path.join(__dirname, '../main.js'), 'utf8'), ctx);
     vm.runInContext('registerDatabaseHandlers()', ctx);

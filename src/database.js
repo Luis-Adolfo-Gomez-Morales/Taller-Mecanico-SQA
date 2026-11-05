@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 const localConfig = require('./db-config');
-const { validarCliente } = require('./scripts/cliente-validation');
+const { validarCliente, correoValido } = require('./scripts/cliente-validation');
 
 const dbConfig = {
     host: process.env.DB_HOST || localConfig.host || '127.0.0.1',
@@ -705,7 +705,7 @@ function validarMecanico(value) {
     data.edad = Number(value.edad);
     if (!Number.isInteger(data.edad) || data.edad < 18 || data.edad > 100) throw new Error('La edad debe estar entre 18 y 100.');
     if (!/^\d{13}$/.test(data.dpi)) throw new Error('El DPI debe tener 13 digitos.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.correo)) throw new Error('Ingresa un correo valido.');
+    if (!correoValido(data.correo)) throw new Error('Ingresa un correo valido.');
     data.fecha_contratacion = String(value.fecha_contratacion || '');
     const fecha = new Date(data.fecha_contratacion + 'T12:00:00Z');
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data.fecha_contratacion) || Number.isNaN(fecha.getTime()) || fecha.toISOString().slice(0,10) !== data.fecha_contratacion) throw new Error('Fecha de contratacion invalida.');

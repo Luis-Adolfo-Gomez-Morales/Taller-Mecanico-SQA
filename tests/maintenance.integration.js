@@ -6,7 +6,7 @@ const path = require('node:path');
 const mysql = require('mysql2/promise');
 const { proximaFecha, kilometrajeValido } = require('../src/maintenance-rules');
 async function main() {
-    for (const value of [-1, NaN, Infinity, '', null, undefined]) assert.throws(() => kilometrajeValido(value));
+    for (const value of [-1, Number.NaN, Infinity, '', null, undefined]) assert.throws(() => kilometrajeValido(value));
     assert.equal(kilometrajeValido(0), 0);
     assert.equal(proximaFecha('2026-01-01', 100, 'Bajo'), '2026-05-06');
     assert.equal(proximaFecha('2026-01-01', 100, 'Normal'), '2026-04-11');

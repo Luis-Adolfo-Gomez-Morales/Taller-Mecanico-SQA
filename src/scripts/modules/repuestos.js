@@ -334,7 +334,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 setVista('existencia');
-cargarRepuestos();
+cargarRepuestos().catch(error => console.error('No se pudo completar la carga inicial:', error));
 
 function mostrarEstadoCargaRepuestos() {
     tablaRepuestos.innerHTML = '<tr><td colspan="5" class="empty-row"></td></tr>';
