@@ -1,15 +1,15 @@
-# Taller Mec?nico: proyecto de calidad de software
+# Taller Mecánico
 
 [![Controles de calidad](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/workflows/main.yml/badge.svg)](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/workflows/main.yml)
-[![SonarQube](https://img.shields.io/badge/SonarQube-ver%20panel-blue)](https://sonarcloud.io/dashboard?id=Luis-Adolfo-Gomez-Morales_Taller-Mecanico-SQA)
+[![Panel de calidad](https://img.shields.io/badge/SonarQube-ver%20panel-blue)](https://sonarcloud.io/dashboard?id=Luis-Adolfo-Gomez-Morales_Taller-Mecanico-SQA)
 
-Este proyecto toma una aplicaci?n de escritorio que ya exist?a y le agrega controles de calidad. Permite registrar clientes, veh?culos, mec?nicos, repuestos y ?rdenes de trabajo. Tambi?n conserva el historial del veh?culo y calcula avisos de mantenimiento.
+Este proyecto usa una aplicación de escritorio que ya existía y le agrega pruebas y revisiones de calidad. La aplicación permite registrar clientes, vehículos, mecánicos, repuestos y órdenes de trabajo. También guarda el historial de los vehículos y muestra avisos de mantenimiento.
 
-Se mantuvo Electron con JavaScript y MySQL porque era la base del proyecto anterior. No se cambi? a React y Express: el enunciado permite usar un proyecto de cursos anteriores y justificar otra tecnolog?a. Node.js ejecuta las pruebas, ESLint revisa el c?digo y GitHub Actions ejecuta las verificaciones. SonarQube Cloud est? conectado al repositorio mediante su integraci?n nativa.
+Se mantuvieron Electron, JavaScript y MySQL porque eran las herramientas del proyecto anterior. El enunciado permite reutilizar un proyecto de otros cursos. Para revisar los cambios se usan Node.js, ESLint, Playwright, GitHub Actions y SonarQube Cloud.
 
-## Instalaci?n y uso
+## Instalar y abrir
 
-Se necesita Node.js 22.14 o posterior de la serie 22 y acceso a MySQL. En las verificaciones se utiliz? Node.js 22.22.3. La aplicaci?n local conserva compatibilidad con MySQL 5.1; el pipeline usa una base temporal MySQL 8.0.
+Se necesita Node.js de la serie 22, versión 22.14 o posterior, y acceso a MySQL. Las pruebas se ejecutaron con Node.js 22.22.3. La aplicación usa Electron 45.2.3. La base local conserva compatibilidad con MySQL 5.1 y GitHub utiliza MySQL 8.0 para las pruebas.
 
 ```powershell
 git clone https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA.git
@@ -18,9 +18,9 @@ npm ci
 Copy-Item src/db-config.example.js src/db-config.js
 ```
 
-Editar `src/db-config.js` con la conexi?n personal. El archivo est? excluido de Git. Tambi?n se pueden usar `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` y `DB_NAME` como variables de entorno. No escribir claves reales en los archivos que se suben.
+Editar `src/db-config.js` con los datos de la conexión personal. Este archivo queda fuera de Git. Después ejecutar `npm start`.
 
-Para una demostraci?n desde cero, se puede preparar una base vac?a con el esquema de pruebas:
+Para una demostración con datos ficticios se puede preparar una base vacía:
 
 ```powershell
 $env:DB_NAME = 'taller_demo_sqa_test'
@@ -28,11 +28,11 @@ npm run db:test:prepare
 npm start
 ```
 
-Esto crea un usuario llamado `usuario_sqa` con clave `clave-solo-de-prueba`. Sirve ?nicamente para la demostraci?n local. La preparaci?n se detiene si la base ya contiene tablas. No se debe usar esta cuenta en una instalaci?n real. Para una base que ya existe, revisar primero el [manual t?cnico](docs/Manual-Tecnico.md) y las migraciones.
+La cuenta de demostración es `usuario_sqa` y su clave es `clave-solo-de-prueba`. Solo se usa en la base de pruebas. El comando se detiene si ya existen tablas. Para una instalación anterior, consultar el [manual técnico](docs/Manual-Tecnico.md) antes de aplicar migraciones.
 
-En Windows, si Electron no abre por una variable del entorno, quitarla solo de la terminal actual con `Remove-Item Env:ELECTRON_RUN_AS_NODE -ErrorAction SilentlyContinue` y repetir `npm start`.
+Si Electron no abre en Windows, quitar la variable de esa terminal con `Remove-Item Env:ELECTRON_RUN_AS_NODE -ErrorAction SilentlyContinue` y volver a ejecutar `npm start`.
 
-## Comprobar el proyecto
+## Revisar los cambios
 
 ```powershell
 npm run build
@@ -40,41 +40,56 @@ npm run lint
 npm test
 ```
 
-`npm test` ejecuta 59 pruebas sin necesitar MySQL. Para ejecutar las 60 pruebas y comprobar la cobertura, usar una base de pruebas preparada:
+`npm test` ejecuta 66 casos sin necesitar un servidor MySQL. Para incluir la integración real y comprobar la cobertura:
 
 ```powershell
 $env:DB_NAME = 'taller_demo_sqa_test'
 $env:RUN_DB_TESTS = '1'
 npm run test:coverage
+npm run test:e2e
 ```
 
-La prueba de integraci?n requiere MySQL y deshace sus escrituras al terminar. La cobertura m?nima es 60 % del c?digo de `src` cargado por las pruebas, sin incluir la configuraci?n privada ni los propios tests. El ?ltimo resultado local fue 77,10 %. Las pruebas de pantallas con datos simulados no significan que toda la interfaz tenga esa cobertura.
+La primera prueba ejecuta 67 casos y exige un mínimo de 60 % de cobertura del código medido. La segunda abre Electron y realiza un recorrido completo por las pantallas. Se usa una base separada con datos ficticios; el recorrido de pantallas deja esos registros en la base de prueba.
 
-## Flujo en GitHub
+## Resultados finales
+
+| Revisión | Resultado |
+|---|---|
+| Pruebas con integración real | 67 aprobadas, 0 fallidas |
+| Recorrido de las pantallas | Aprobado |
+| ESLint | 0 errores y 0 advertencias |
+| Cobertura de líneas medida por Node.js | 80,27 % |
+| Cobertura del código nuevo en SonarQube | 85,81 % |
+| Control de calidad de SonarQube | Passed |
+| Pipeline | build, test, analyze y report aprobados |
+
+Los dos porcentajes de cobertura tienen distinto alcance. SonarQube también muestra una cobertura general de 42,8 % y una duplicación general de 7,4 %. Estas medidas se explican en el [reporte de mejora](docs/Reporte-Mejora.md).
+
+## Flujo de revisión
 
 ```mermaid
 flowchart LR
-    A[Rama y pull request] --> B[build: revisar y preparar c?digo]
-    B --> C[test: pruebas y cobertura]
-    B --> D[analyze: ESLint y SonarQube]
-    C --> E[report: resumen y archivos]
-    D --> E
-    E --> F[Revisi?n antes de unir a main]
+    A[Rama y pull request] --> B[build]
+    B --> C[test]
+    C --> D[analyze]
+    D --> E[report]
+    E --> F[Revisar e integrar a main]
 ```
 
-El workflow est? en `.github/workflows/main.yml`. Se ejecuta al abrir o actualizar un pull request hacia `main`, al subir cambios a `main` y de forma manual. Si una prueba falla, hay advertencias de ESLint, la cobertura baja de 60 % o SonarQube no aprueba, el resultado final falla. En cada ejecuci?n se pueden descargar el c?digo preparado y los reportes desde **Artifacts**. La carpeta `build` contiene el c?digo para instalar; no es un instalador de Windows ni un despliegue en la nube.
+Build prepara el código. Test ejecuta las pruebas y el recorrido de pantallas. Analyze revisa ESLint y envía la cobertura a SonarQube. Report guarda el resumen. Si un control obligatorio falla, el cambio no puede integrarse a `main`.
 
-La rama `main` est? protegida: exige pull request y los controles build, test, analyze, report y SonarCloud Code Analysis. La regla tambi?n se aplica al administrador. El resultado comprobado se explica en la [revisi?n de requisitos](docs/cumplimiento-requisitos.md).
+La rama principal está protegida y el repositorio es público. En [GitHub Actions](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/runs/41952310669) se puede consultar la ejecución final del código y descargar sus archivos durante 14 días.
 
-## Documentaci?n
+## Documentos y capturas
 
-- [Plan SQA](docs/SQA_PLAN.md): objetivos, actividades, criterios y riesgos.
-- [Matriz de pruebas](docs/matriz-pruebas.md): casos, entradas y resultados.
-- [L?nea base](docs/Linea-Base-Calidad.md): medici?n del c?digo anterior.
-- [Reporte de mejora](docs/Reporte-Mejora.md): comparaci?n antes y despu?s.
-- [Manual t?cnico](docs/Manual-Tecnico.md): instalaci?n, pipeline y mantenimiento.
-- [Manual de uso](docs/Manual-Uso.md): pasos para usar la aplicaci?n.
-- [Deuda t?cnica](docs/deuda-tecnica.md): problemas pendientes y prioridades.
-- [Revisi?n del enunciado](docs/cumplimiento-requisitos.md): requisitos completados y pendientes.
+- [Plan de calidad](docs/SQA_PLAN.md).
+- [Matriz de pruebas](docs/matriz-pruebas.md).
+- [Línea base](docs/Linea-Base-Calidad.md).
+- [Reporte de mejora](docs/Reporte-Mejora.md).
+- [Manual técnico](docs/Manual-Tecnico.md).
+- [Manual de uso](docs/Manual-Uso.md).
+- [Revisión de las pantallas](docs/verificacion-funcional.md).
+- [Mejoras pendientes](docs/deuda-tecnica.md).
+- [Capturas y evidencias](docs/evidencias/README.md).
 
-La presentaci?n, el PDF y el video se entregan por separado en la plataforma del curso y est?n excluidos del repositorio. El repositorio es p?blico para que el docente pueda revisarlo y para permitir la protecci?n de main con el plan disponible.
+La presentación, el documento PDF y el video se entregan por separado en la plataforma del curso.

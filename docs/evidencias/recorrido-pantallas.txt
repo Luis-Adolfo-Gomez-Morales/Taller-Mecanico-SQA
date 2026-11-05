@@ -1,0 +1,26 @@
+Fecha de revisión: 4 de noviembre de 2026.
+Fuente: GitHub Actions, ejecución 41952310669, commit 7a600ff.
+> node scripts/test-e2e.js
+
+TAP version 13
+# Inicio de sesion rechaza datos incorrectos y permite entrar
+# Cliente y vehiculo se guardan desde sus formularios
+# La pantalla rechaza bajar kilometraje y conserva la edicion valida
+# Mecanico y repuesto se registran desde la interfaz
+# Una orden finalizada guarda servicio y descuenta repuestos una sola vez
+# Historial y panel muestran la atencion registrada sin errores de pantalla
+# Subtest: Recorrido completo de la aplicacion con MySQL real
+ok 1 - Recorrido completo de la aplicacion con MySQL real
+  ---
+  duration_ms: 8458.277289
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8828.275873
