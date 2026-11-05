@@ -1,5 +1,16 @@
-# M?tricas de calidad
+# Métricas de calidad
 
-La comparaci?n actual est? en [Reporte-Mejora.md](Reporte-Mejora.md) y la medici?n inicial en [Linea-Base-Calidad.md](Linea-Base-Calidad.md).
+El resultado completo está en [Reporte-Mejora.md](Reporte-Mejora.md) y la medición inicial está en [Linea-Base-Calidad.md](Linea-Base-Calidad.md).
 
-La primera versi?n de este documento usaba 56 pruebas y una cobertura global que inclu?a los propios tests. Para evitar confusiones, la revisi?n actual separa los archivos del sistema de los archivos de prueba e incorpora la integraci?n real con MySQL. Tambi?n sustituye la cifra anterior de 19 advertencias por las 23 obtenidas al repetir la medici?n del commit `d915beb`.
+| Medida final | Resultado |
+|---|---|
+| Suite principal con MySQL | 67 pruebas aprobadas |
+| Recorrido de pantallas | 1 aprobado |
+| ESLint | 0 errores y 0 advertencias |
+| Cobertura medida por Node.js | 80,27 % |
+| Cobertura de código nuevo en SonarQube | 85,81 % |
+| Cobertura general de SonarQube | 42,8 % |
+| Duplicación de código nuevo / general | 0,0 % / 7,4 % |
+| Pipeline y control de SonarQube | Aprobados |
+
+Las medidas se mantienen separadas porque cada herramienta considera un conjunto distinto de código. Las [capturas reales](evidencias/README.md) permiten revisar estos valores.

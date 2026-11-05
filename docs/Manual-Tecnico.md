@@ -1,71 +1,73 @@
-# Manual t?cnico
+# Manual técnico
 
-## Estructura del proyecto
+## Cómo está organizado
 
-La aplicaci?n tiene dos partes de Electron: el proceso principal abre la ventana y atiende las solicitudes, y las pantallas muestran la informaci?n. `src/preload.js` permite que las pantallas llamen a las operaciones autorizadas. MySQL guarda la informaci?n.
+La aplicación usa Electron para abrir las pantallas y MySQL para guardar los datos. JavaScript contiene las acciones de los formularios y las reglas del taller.
 
-| Archivo o carpeta | Para qu? sirve |
+| Archivo o carpeta | Función |
 |---|---|
-| main.js | Abre la aplicaci?n y conecta las solicitudes con las operaciones |
-| src/preload.js | Comunica las pantallas con el proceso principal |
-| src/database.js | Consulta y guarda clientes, veh?culos, ?rdenes y repuestos |
-| src/maintenance-rules.js | Revisa kilometraje y calcula mantenimiento |
-| src/maintenance-layer.js | Consulta servicios y conserva operaciones de mantenimiento |
-| src/config.js | Lee la configuraci?n personal o las variables del entorno |
-| src/views, src/scripts y src/styles | Pantallas, acciones y apariencia |
-| tests | Casos autom?ticos, simulaciones y prueba real de MySQL |
-| scripts | Preparaci?n del c?digo, base de pruebas y reportes |
+| `main.js` | Abre la ventana y recibe las solicitudes de las pantallas |
+| `src/preload.js` | Comunica las pantallas con las operaciones autorizadas |
+| `src/database.js` | Consulta y guarda la información |
+| `src/maintenance-rules.js` | Revisa kilometraje y mantenimiento |
+| `src/passwords.js` | Comprueba las claves y genera sus hashes |
+| `src/config.js` | Lee la conexión personal o las variables del entorno |
+| `src/views`, `src/scripts`, `src/styles` | Pantallas, acciones y apariencia |
+| `tests` | Pruebas de funciones, integración y recorrido de pantallas |
+| `scripts` | Preparación del código, base de prueba y reportes |
 
-`createDatabase(pool)` permite usar las mismas operaciones con una conexi?n real de prueba. As? no hace falta leer un archivo JavaScript y ejecutarlo como texto.
+Las pruebas pueden pasar su propia conexión mediante `createDatabase(pool)`. Esto permite comprobar las operaciones sin usar la base real del taller.
 
-## Instalaci?n
+## Instalación y conexión
 
-Seguir el README. `npm ci` instala lo registrado en package-lock.json y permite descargar Electron para abrir la aplicaci?n. En GitHub se usa `npm ci --ignore-scripts` porque las verificaciones no abren la ventana de Electron.
+Seguir las instrucciones del README. Se usaron Node.js 22.22.3 y Electron 45.2.3. `npm ci` instala las versiones guardadas en `package-lock.json` y descarga Electron.
 
-Copiar `src/db-config.example.js` como `src/db-config.js` solo para el equipo local. Las variables DB_HOST, DB_PORT, DB_USER, DB_PASSWORD y DB_NAME tienen prioridad. El archivo personal nunca se copia a build ni se incluye en Git. Una instalaci?n nueva puede usar el esquema vac?o de pruebas siguiendo el README; las cuentas creadas all? son ?nicamente de demostraci?n.
+Copiar `src/db-config.example.js` como `src/db-config.js` y colocar allí la conexión personal. El archivo no se sube a Git ni se copia a build. Las variables `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` y `DB_NAME` tienen prioridad cuando están definidas.
 
-## Base de datos
+El esquema vacío está en `tests/fixtures/schema.sql`. Para prepararlo usar `npm run db:test:prepare` con una base cuyo nombre termine en `_sqa_test`. El comando se detiene si ya hay tablas. Los datos de inicio son ficticios y solo sirven para pruebas.
 
-`tests/fixtures/schema.sql` contiene el esquema actual sin registros reales. Se obtuvo de la estructura local y no incluye contrase?as ni datos de clientes. `npm run db:test:prepare` solo admite nombres terminados en `_sqa_test` y se detiene si encuentra tablas existentes. No borra una base para volver a crearla.
+Las migraciones 03 y 07 a 16 muestran cómo cambió la instalación antigua. Antes de aplicarlas hay que revisar qué cambios ya existen y hacer un respaldo. La lista está en [mysql51-migracion.md](mysql51-migracion.md).
 
-Las migraciones 03 y 07 a 16 documentan la evoluci?n de una instalaci?n antigua de MySQL 5.1. No se deben ejecutar todas sin comprobar antes cu?les ya se aplicaron. La migraci?n 13 elimina las vistas antiguas de pilotos y propietarios, y la 16 incorpora el descuento de repuestos. El esquema 01 es una propuesta anterior y no representa la instalaci?n actual completa.
+## Ejecución de pruebas
 
-Las pruebas locales se hicieron en una base separada sobre MySQL 5.1. El workflow prepara MySQL 8.0 dentro de GitHub Actions. Esa base se elimina con el entorno de ejecuci?n. Su contrase?a se genera por separado y se guarda en el secreto CI_MYSQL_PASSWORD de GitHub; no est? escrita en el workflow. No se conecta con la base del taller.
+| Comando | Qué comprueba |
+|---|---|
+| `npm run build` | Sintaxis y preparación de la carpeta de entrega |
+| `npm run lint` | Código sin errores ni advertencias de ESLint |
+| `npm test` | 66 casos sin un servidor MySQL real |
+| `npm run test:coverage` | 67 casos y cobertura, con `RUN_DB_TESTS=1` y la base de prueba preparada |
+| `npm run test:e2e` | Recorrido completo de las pantallas con MySQL real |
+
+La integración real deshace sus cambios al terminar. El recorrido de pantallas deja los registros ficticios en la base de prueba. En Linux se usa `xvfb-run -a npm run test:e2e` para disponer de una pantalla durante la ejecución.
 
 ## Pipeline
 
 ```mermaid
-flowchart TD
-    A[Push a main o pull request] --> B[build]
-    B --> C[test con MySQL temporal]
-    B --> D[analyze con ESLint y SonarQube]
-    C --> E[report]
-    D --> E
-    E --> F[Revisar resultados antes de integrar]
+flowchart LR
+    A[Push o pull request] --> B[build]
+    B --> C[test]
+    C --> D[analyze]
+    D --> E[report]
 ```
 
-Build revisa la sintaxis de JavaScript y prepara una carpeta de entrega. No genera un instalador ni comprueba que Electron abra. Test ejecuta la suite y exige 60 % de l?neas cubiertas. Analyze exige cero advertencias y consulta el control `SonarCloud Code Analysis` del mismo commit. Espera como m?ximo cinco minutos y falla si no recibe aprobaci?n. Report se ejecuta incluso cuando una etapa falla, publica un resumen y conserva los archivos disponibles.
+Build prepara el código. Test crea una base temporal MySQL 8.0, ejecuta las pruebas, exige 60 % de cobertura y recorre las pantallas. Analyze ejecuta ESLint y envía el código y `coverage/lcov.info` a SonarQube. Espera el resultado del control de calidad antes de aprobar. Report guarda el resumen, incluso si otra etapa falla.
 
-Los archivos descargables son `codigo-preparado`, `resultados-pruebas` y `reporte-calidad`. Se guardan 14 d?as. En una ejecuci?n fallida puede faltar un archivo si la etapa que deb?a generarlo no lleg? a ejecutarse.
+Build prepara archivos para instalar la aplicación; no genera un instalador de Windows. Las descargas de Actions se llaman `codigo-preparado`, `resultados-pruebas` y `reporte-calidad`, y duran 14 días.
 
-## SonarQube
+## Configuración de SonarQube y secretos
 
-El proyecto usa la integraci?n nativa que ya est? conectada a GitHub. No necesita SONAR_TOKEN en este modo. El script de comprobaci?n consulta GitHub con el token temporal de Actions, que solo tiene permiso de lectura.
+El análisis se ejecuta desde GitHub Actions y el análisis automático de SonarQube está desactivado. El archivo `.sonar-ci.properties` indica el proyecto y la ubicación de la cobertura. La variable `SONAR_CI_ENABLED=true` activa este modo.
 
-El an?lisis autom?tico de SonarQube no admite importar cobertura. El LCOV queda disponible como archivo de la ejecuci?n. Para mostrarlo en el dashboard hay que desactivar el an?lisis autom?tico, configurar an?lisis desde CI y guardar el token en los secretos de GitHub. No se deben ejecutar ambos m?todos a la vez. Referencia: [cobertura de JavaScript en SonarQube](https://docs.sonarsource.com/sonarqube-cloud/analyzing-source-code/test-coverage/javascript-typescript-test-coverage).
+Los secretos del repositorio son `SONAR_TOKEN` y `CI_MYSQL_PASSWORD`. Sus valores se guardan en GitHub, no en el código. Si el token vence, se reemplaza allí y se vuelve a ejecutar el workflow. Referencia: [cobertura de JavaScript en SonarQube](https://docs.sonarsource.com/sonarqube-cloud/analyzing-source-code/test-coverage/javascript-typescript-test-coverage).
 
-## Protecci?n de main y revisi?n
+La cobertura general del panel considera más archivos que el reporte de Node.js. Para explicar los resultados se deben usar los nombres completos de cada medida.
 
-El repositorio se hizo p?blico con autorizaci?n del propietario. La consulta posterior confirm? la protecci?n de main y estos controles obligatorios: build, test, analyze, report y SonarCloud Code Analysis. La rama debe estar actualizada antes de integrar. La regla tambi?n se aplica al administrador y bloquea borrado y force push.
+## Seguridad y mantenimiento
 
-Se exige abrir un pull request. Como el trabajo es individual, no se exige una aprobaci?n de otra cuenta ni se inventa una revisi?n ajena. La revisi?n autom?tica s? es obligatoria. Si se incorpora un compa?ero, conviene exigir al menos una aprobaci?n humana.
+Las claves nuevas se guardan con scrypt. Las cuentas que aún tenían una clave antigua se actualizan al entrar correctamente, conservando la contraseña del usuario. No se hizo una modificación masiva de las cuentas reales.
 
-La primera configuraci?n no fue posible porque GitHub exig?a Pro o un repositorio p?blico. Se resolvi? con la segunda opci?n. Referencia: [ramas protegidas de GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
+`main` exige pull request y los controles build, test, analyze, report y SonarCloud Code Analysis. La regla también se aplica al administrador. Después de cambiar el código hay que repetir las comprobaciones y revisar el pull request antes de integrarlo.
 
-## Mantenimiento y soluci?n de problemas
+Si una consulta falla, revisar la conexión. Si la base de prueba ya tiene tablas, elegir otra base vacía en lugar de borrar datos sin revisar. Si falla SonarQube, revisar el secreto, el método de análisis y el mensaje de la etapa analyze.
 
-Despu?s de cambiar el c?digo ejecutar build, lint y las pruebas. Si cambia un comportamiento, actualizar su caso y la matriz. No bajar el porcentaje m?nimo para ocultar un fallo.
-
-Si falta db-config.js en GitHub, src/config.js utiliza el ejemplo y las variables del workflow. Si la base de pruebas ya existe, usar otra base vac?a o revisar su contenido; el script no la limpia. Si SonarQube no responde, revisar su conexi?n y el commit analizado. Si falla el reporte, revisar primero test y analyze.
-
-Una nueva dependencia se agrega junto con package-lock.json y se prueba con npm ci. Las capturas, PDF y grabaci?n para la entrega se mantienen fuera de GitHub.
+Las [capturas finales](evidencias/README.md) muestran una ejecución comprobada. Las mejoras pendientes están en [deuda-tecnica.md](deuda-tecnica.md).

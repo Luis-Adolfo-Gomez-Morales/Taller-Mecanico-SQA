@@ -1,78 +1,81 @@
-# Plan de aseguramiento de calidad (SQA)
+# Plan de aseguramiento de calidad
 
-Proyecto: Taller Mec?nico. Curso: Aseguramiento de la Calidad del Software. Revisi?n: 4 de noviembre de 2026.
+Proyecto: Taller Mecánico. Curso: Aseguramiento de la Calidad del Software. Revisión final: 4 de noviembre de 2026.
 
-## Prop?sito y alcance
+## Propósito
 
-El objetivo es revisar los cambios de una aplicaci?n existente antes de aceptarlos. Se comprueban datos de clientes, kilometraje, mantenimiento, ?rdenes, inventario e historial. Tambi?n se revisan algunas acciones de las pantallas con datos simulados.
+El objetivo fue agregar un proceso de revisión a una aplicación existente. Antes de aceptar un cambio, se comprueba que las pruebas pasen, que el código no tenga advertencias y que se cumpla la cobertura mínima.
 
-Se mantuvo Electron, JavaScript y MySQL porque el sistema viene de un proyecto anterior. El enunciado permite esa opci?n. No se incluyen pruebas de carga ni un despliegue en la nube. Las pruebas de pantalla no reemplazan una revisi?n manual de la aplicaci?n abierta.
+## Alcance
 
-## Referencias y reglas de trabajo
+Se revisan clientes, vehículos, kilometraje, órdenes, repuestos, historial, mantenimiento e inicio de sesión. Se incluyen pruebas de funciones pequeñas, pruebas con datos simulados, integración real con MySQL y un recorrido por las pantallas de Electron.
 
-Se tom? como referencia el modelo de calidad ISO/IEC 25010:2023 para ordenar los aspectos de funcionamiento, confiabilidad, seguridad y facilidad de mantenimiento. Este trabajo es una aplicaci?n acad?mica de esas ideas; no es una certificaci?n. La referencia oficial est? en [ISO](https://www.iso.org/standard/78176.html).
+Se conservó la aplicación de escritorio del proyecto anterior. No se incluyen pruebas de carga ni un despliegue en la nube. La presentación y el video forman parte de la entrega externa.
 
-Las reglas del proyecto son mantener las validaciones en funciones que se puedan probar, usar consultas con par?metros, explicar los cambios con comentarios breves en espa?ol y guardar claves fuera de Git. Se usa la configuraci?n de ESLint del repositorio y una matriz con entradas y resultados para revisar las pruebas.
+## Referencias y reglas
 
-## Actividades
+Como referencia se usó el modelo de calidad [ISO/IEC 25010:2023](https://www.iso.org/standard/78176.html), principalmente para ordenar las revisiones de funcionamiento, confiabilidad, seguridad y mantenimiento. El proyecto no representa una certificación.
 
-| Momento | Actividad | Evidencia |
+Las reglas de trabajo fueron usar nombres claros, comentarios cortos en español, consultas con parámetros y claves personales fuera de Git. Las contraseñas nuevas se guardan con hash. Las cuentas anteriores se actualizan cuando su dueño inicia sesión correctamente.
+
+## Actividades y responsables
+
+| Momento | Actividad | Resultado que se guarda |
 |---|---|---|
-| Antes de cambiar | Medir una versi?n anterior y anotar los problemas | L?nea base y archivos de evidencia |
-| Durante el cambio | Corregir el problema y revisar el c?digo | Diferencias del commit y pruebas |
-| Antes de integrar | Abrir un pull request y ejecutar los controles | Build, test, analyze y report |
-| Despu?s de ejecutar | Comparar resultados y anotar pendientes | Reporte de mejora y deuda t?cnica |
-| Antes de entregar | Probar el uso y preparar la demostraci?n | Manual de uso y entrega externa |
+| Antes de corregir | Revisar una versión anterior | Línea base |
+| Durante los cambios | Corregir el problema y repetir las pruebas | Cambios y resultados |
+| Antes de integrar | Abrir un pull request y ejecutar los controles | Revisión en GitHub |
+| Al terminar | Comparar los resultados y guardar capturas | Reporte de mejora y evidencias |
 
-El estudiante es responsable de mantener el c?digo, revisar los resultados y describir las limitaciones. Si participa un compa?ero, puede revisar el pull request. El autor no puede aprobar su propio cambio como si fuera otra persona.
+El responsable del proyecto revisa los cambios y sus resultados. La revisión automática es obligatoria. Al ser un trabajo individual, no se exige la aprobación de otra cuenta.
 
-## Pruebas y herramientas
+## Herramientas y pruebas
 
-- Unitarias: validaci?n de clientes, fechas y kilometraje con Node Test Runner.
-- Integraci?n simulada: operaciones y errores con conexiones de prueba, sin un servidor MySQL.
-- Integraci?n real: operaciones de clientes, veh?culos, ?rdenes, repuestos e historial en una base separada.
-- Regresi?n: repetir todos los casos despu?s de cambiar el proyecto.
-- Revisi?n autom?tica: ESLint y la integraci?n nativa de SonarQube Cloud.
-- Revisi?n manual: leer el cambio, comprobar mensajes y seguir los pasos del manual de uso.
-
-Git conserva los cambios. GitHub Actions ejecuta el proceso y guarda los reportes. La integraci?n real se ejecuta en MySQL 8.0 temporal en GitHub y se verific? localmente con MySQL 5.1.
-
-## Criterios de aceptaci?n
-
-| Control | Criterio | Qu? pasa si no cumple |
-|---|---|---|
-| Build | Sintaxis correcta y c?digo preparado | Falla build |
-| Pruebas | Cero fallos | Falla test |
-| Cobertura | Al menos 60 % de l?neas de src cargadas por las pruebas | Falla test |
-| ESLint | Cero errores y cero advertencias | Falla analyze |
-| SonarQube | Estado success del control nativo del mismo commit | Falla analyze si rechaza o no responde |
-| Reporte | Todas las etapas anteriores aprobadas | Falla report y se guardan los resultados disponibles |
-| Revisi?n | Revisar el pull request antes de unirlo | La protecci?n de rama debe impedir la uni?n si falta un control |
-
-La cobertura excluye los archivos personales de conexi?n y los tests. El resultado local actual es 77,10 %, pero no corresponde a toda la aplicaci?n: varias pantallas se ejecutan dentro de simulaciones y no aparecen en el reporte de Node. La cobertura del panel SonarQube no se importa mientras se use su an?lisis autom?tico.
-
-## M?tricas
-
-Se registran pruebas ejecutadas y aprobadas, errores y advertencias de ESLint, cobertura de l?neas, ramas y funciones, estado de las etapas e incidencias de SonarQube. La l?nea base se reconstruy? desde el commit `d915beb`, sin cambiar la rama de trabajo.
-
-La comprobaci?n local m?s reciente tiene 60 pruebas aprobadas, cero fallos y ESLint sin problemas. Los valores completos y su alcance est?n en [Reporte-Mejora.md](Reporte-Mejora.md). No se inventan porcentajes ni m?tricas privadas de SonarQube que no se hayan podido consultar.
-
-## Atenci?n de problemas
-
-Primero se registra el archivo y el problema. Despu?s se corrige la causa, se repiten las pruebas y se vuelve a revisar el an?lisis. Los pendientes se anotan con prioridad en [deuda-tecnica.md](deuda-tecnica.md). Una alerta se marca como falso positivo solo despu?s de revisar el c?digo y explicar el motivo.
-
-## Riesgos
-
-| Riesgo | Medida |
+| Herramienta | Uso |
 |---|---|
-| Cambiar datos del taller durante una prueba | Base separada cuyo nombre termina en _sqa_test; las escrituras del caso se revierten |
-| Subir claves personales | Configuraci?n local excluida y variables de entorno en CI |
-| Aceptar c?digo con fallos | Controles obligatorios y revisi?n mediante pull request |
-| Mostrar una cobertura que no corresponde | Indicar los archivos medidos y separar la interfaz simulada |
-| No recibir resultado de SonarQube | Detener analyze y revisar la conexi?n del repositorio |
-| Saltarse la revisi?n al subir cambios | Main protegida incluso para el administrador; PR y controles obligatorios |
-| Dar por realizadas pruebas manuales sin hacerlas | Marcar los pasos como pendientes hasta ejecutarlos |
+| Git y GitHub | Guardar los cambios y revisar los pull requests |
+| GitHub Actions | Ejecutar el proceso de calidad |
+| Node Test Runner | Comprobar validaciones y operaciones |
+| Playwright y Electron | Recorrer la aplicación con pantallas reales |
+| ESLint | Revisar las reglas del código |
+| SonarQube Cloud | Revisar problemas, duplicación y cobertura |
+| MySQL | Guardar los datos y probar las operaciones reales |
 
-## Seguimiento
+Las pruebas pequeñas revisan datos y reglas concretas. La integración simulada comprueba respuestas y errores sin un servidor. La integración real usa MySQL en una base separada. El recorrido de pantallas comprueba el uso de la aplicación. Repetir estas pruebas después de un cambio permite detectar regresiones.
 
-Despu?s de cambios relevantes se ejecutan build, lint y las pruebas. Antes de la entrega se revisa la ejecuci?n remota, la protecci?n de main y las incidencias pendientes. La presentaci?n y el video quedan fuera de GitHub seg?n la forma de entrega acordada.
+## Condiciones para aceptar un cambio
+
+| Control | Condición |
+|---|---|
+| Build | Código preparado y sin errores de sintaxis |
+| Pruebas | Cero casos fallidos |
+| Cobertura de Node.js | Al menos 60 % de líneas del código medido |
+| ESLint | Cero errores y cero advertencias |
+| SonarQube | Quality Gate aprobado; en código nuevo, cobertura mínima de 80 % y duplicación máxima de 3 % |
+| Reporte | Todas las etapas anteriores aprobadas |
+| Rama principal | Pull request y controles obligatorios antes de integrar |
+
+La regla de `main` también se aplica al administrador y bloquea el borrado y los cambios forzados de la rama.
+
+## Resultados y métricas
+
+La ejecución final del código tuvo 67 pruebas aprobadas y un recorrido de pantallas aprobado. ESLint terminó sin problemas. Node.js midió 80,27 % de cobertura de líneas y SonarQube mostró 85,81 % en código nuevo.
+
+SonarQube también mide todo el proyecto: su cobertura general fue 42,8 % y la duplicación general fue 7,4 %. Se muestran por separado porque no son las mismas medidas. La comparación completa está en [Reporte-Mejora.md](Reporte-Mejora.md).
+
+## Riesgos y atención de problemas
+
+| Riesgo | Medida aplicada |
+|---|---|
+| Cambiar datos reales al probar | Usar una base separada con nombre terminado en `_sqa_test` |
+| Publicar claves | Usar configuración personal excluida y secretos de GitHub |
+| Aceptar un cambio con fallos | Exigir las pruebas y revisiones antes de integrar |
+| Confundir porcentajes | Indicar qué código mide cada herramienta |
+| No recibir el resultado de SonarQube | Detener el análisis y revisar la conexión |
+| Perder el registro de un problema | Anotar la mejora y volver a comprobarla después de corregir |
+
+Cuando se encuentra un problema, se revisa su causa, se corrige y se repiten las pruebas relacionadas. Las mejoras que todavía conviene realizar están en [deuda-tecnica.md](deuda-tecnica.md).
+
+## Evidencias y seguimiento
+
+Se guardaron resultados de pruebas, capturas del pipeline, capturas de SonarQube y pantallas de la aplicación. Están organizadas en [evidencias](evidencias/README.md). Para futuras modificaciones se mantiene el mismo proceso de revisión.

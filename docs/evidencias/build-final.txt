@@ -1,9 +1,5 @@
-Fecha: 2026-11-04. Entorno local: Node.js 22.22.3 y MySQL 5.1 en base separada.
-Comando: npm.cmd run build
-Codigo de salida: 0
-
-
-> taller-mecanico@1.0.0 build
+Fecha de revisión: 4 de noviembre de 2026.
+Fuente: GitHub Actions, ejecución 41952310669, commit 7a600ff.
 > node scripts/build.js
 
 Build listo: sintaxis revisada y carpeta de entrega preparada.
