@@ -49,7 +49,7 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -p${{ secrets.CI_MYSQL_PASSWORD }}"
+          --health-cmd="mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10

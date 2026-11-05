@@ -13,7 +13,7 @@ Se revis? el documento ?Proyecto Final 2026? el 4 de noviembre de 2026. Esta tab
 | Linter y SonarQube | ESLint e integraci?n nativa | Configurado; panel privado |
 | Etapas build, test, analyze y report | .github/workflows/main.yml | Implementadas; validar ejecuci?n remota de esta entrega |
 | Fallar al no cumplir los controles | L?mite de cobertura, max-warnings 0 y espera de SonarQube | Implementado; prueba de rechazo incluida |
-| Pull requests y protecci?n de rama principal | Plantilla de PR y controles configurados | Protecci?n pendiente: main no est? protegida y API responde 403 |
+| Pull requests y protecci?n de rama principal | Plantilla de PR y controles configurados | Protecci?n pendiente: GitHub exige Pro o repositorio p?blico (HTTP 403) |
 | Revisi?n autom?tica y manual | Workflow y lista del pull request | Autom?tica preparada; revisi?n humana debe quedar registrada |
 | M?tricas antes y despu?s | Linea-Base-Calidad.md y Reporte-Mejora.md | Evidencias locales incluidas |
 | Gesti?n de deuda t?cnica | deuda-tecnica.md | Registrada con prioridades |

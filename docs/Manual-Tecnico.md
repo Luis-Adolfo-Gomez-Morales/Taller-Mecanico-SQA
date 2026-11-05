@@ -56,7 +56,7 @@ El an?lisis autom?tico de SonarQube no admite importar cobertura. El LCOV queda 
 
 ## Protecci?n de main y revisi?n
 
-La ?ltima consulta indic? `protected: false`; el acceso al ajuste de protecci?n devolvi? HTTP 403. La protecci?n de repositorios privados depende del plan y los permisos. No basta con agregar un workflow para proteger una rama.
+La ?ltima consulta indic? `protected: false`; el acceso al ajuste de protecci?n devolvi? HTTP 403. GitHub respondi? que se necesita GitHub Pro o hacer p?blico el repositorio para activar esta funci?n. No basta con agregar un workflow para proteger una rama.
 
 Cuando la cuenta lo permita, entrar en Settings, Branches o Rules y crear una regla para main. Exigir pull request y los controles build, test, analyze, report y SonarCloud Code Analysis. Desactivar saltos de la regla por administradores y bloquear borrado y force push. Si trabaja otra persona, pedir al menos una aprobaci?n. En trabajo individual no se debe inventar una aprobaci?n ajena ni bloquear el proyecto esperando la aprobaci?n del propio autor.
 

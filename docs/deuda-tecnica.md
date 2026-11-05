@@ -4,7 +4,7 @@ Revisi?n: 4 de noviembre de 2026. La prioridad indica qu? conviene resolver prim
 
 | ID | Pendiente | Prioridad | Pr?ximo paso | Estado |
 |---|---|---|---|---|
-| DT-01 | main sin protecci?n obligatoria | Alta | Resolver el acceso al ajuste y exigir PR y controles | Pendiente; API devuelve 403 |
+| DT-01 | main sin protecci?n obligatoria | Alta | Resolver el acceso al ajuste y exigir PR y controles | Pendiente; GitHub exige Pro o repositorio p?blico |
 | DT-02 | Comparaci?n de contrase?as en texto en authenticateUser | Alta | Migrar a hashes de contrase?a y actualizar usuarios con un procedimiento controlado | Pendiente; no se cambian claves reales en esta entrega |
 | DT-03 | Dos alertas SQL conocidas parecen falsos positivos | Media | Revisar el c?digo se?alado en SonarQube y explicar antes de cerrarlas | Pendiente en panel privado |
 | DT-04 | Cobertura del dashboard no importada por el modo autom?tico | Media | Configurar an?lisis desde CI con secreto privado si se necesita mostrar cobertura en SonarQube | LCOV disponible en Actions |
