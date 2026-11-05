@@ -14,7 +14,8 @@ const dbConfig = {
     dateStrings: true
 };
 
-const pool = mysql.createPool(dbConfig);
+// Permite usar una conexion transaccional en las pruebas sin ejecutar codigo dinamico.
+function createDatabase(pool) {
 const rules = require('./maintenance-rules').createRules(pool);
 const maintenance = require('./maintenance-layer').createMaintenanceLayer(pool, { listClientes: listPilotos, createCliente: createPiloto });
 
@@ -756,7 +757,7 @@ async function listHistorial() {
     return rows.map(row => ({...row, servicios: (porOrden.get(row.id_orden) || []).join('; ')}));
 }
 
-module.exports = {
+return {
     actualizarKilometraje: rules.actualizarKilometraje,
     listMecanicos, saveMecanico,
     listHistorial,
@@ -783,3 +784,7 @@ module.exports = {
     updateOrden,
     deleteOrden
 };
+
+}
+
+module.exports = { ...createDatabase(mysql.createPool(dbConfig)), createDatabase };

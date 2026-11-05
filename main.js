@@ -73,12 +73,12 @@ function createWindow() {
     win.loadFile('src/views/login.html').catch(error => console.error('No se pudo cargar el inicio de sesion:', error));
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
     Menu.setApplicationMenu(null);
     registerDatabaseHandlers();
 
     const actualizarRecordatorios = () => database.generarRecordatorios().catch(error => console.error('No se pudieron generar recordatorios:', error.message));
-    actualizarRecordatorios();
+    await actualizarRecordatorios();
     const timer = setInterval(actualizarRecordatorios, 60 * 60 * 1000);
     timer.unref();
     createWindow();

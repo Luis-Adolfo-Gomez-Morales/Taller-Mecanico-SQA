@@ -1,8 +1,6 @@
 // Ejecutar con node tests/maintenance.integration.js. Todas las escrituras se revierten.
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const vm = require('node:vm');
-const path = require('node:path');
+const { createDatabase } = require('../src/database');
 const mysql = require('mysql2/promise');
 const { proximaFecha, kilometrajeValido } = require('../src/maintenance-rules');
 async function main() {
@@ -23,12 +21,7 @@ async function main() {
             commit: async () => {}, rollback: () => connection.query('ROLLBACK TO SAVEPOINT app_test'), release: () => {}
         };
         const pool = { ...proxy, getConnection: async () => proxy };
-        const mod = { exports: {} };
-        vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../src/database.js'), 'utf8'), {
-            module: mod, process, console,
-            require: name => name === 'mysql2/promise' ? { createPool: () => pool } : require(path.join(__dirname, '../src', name))
-        });
-        const db = mod.exports;
+        const db = createDatabase(pool);
         const [usuarios] = await connection.query("SELECT id_usuario FROM usuarios WHERE estado = 'Activo' LIMIT 1");
         assert(usuarios.length, 'Se requiere un usuario activo para la prueba');
         const idUsuario = usuarios[0].id_usuario;
