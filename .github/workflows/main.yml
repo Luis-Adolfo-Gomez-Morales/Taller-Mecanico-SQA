@@ -67,7 +67,7 @@ jobs:
       - name: Preparar Electron para comprobar las pantallas
         run: |
           node node_modules/electron/install.js
-          npx playwright install-deps chromium
+          node node_modules/playwright/cli.js install-deps chromium
       - name: Recorrer la aplicacion con datos de prueba
         run: xvfb-run -a npm run test:e2e
       - uses: actions/upload-artifact@v4
@@ -110,7 +110,7 @@ jobs:
           path: .
       - name: Analizar codigo y enviar cobertura a SonarQube
         if: env.SONAR_CI_ENABLED == 'true'
-        uses: SonarSource/sonarqube-scan-action@v8
+        uses: SonarSource/sonarqube-scan-action@59db25f34e16620e48ab4bb9e4a5dce155cb5432
         with:
           args: >-
             -Dproject.settings=.sonar-ci.properties
