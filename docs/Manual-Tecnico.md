@@ -30,7 +30,7 @@ Copiar `src/db-config.example.js` como `src/db-config.js` solo para el equipo lo
 
 Las migraciones 03 y 07 a 16 documentan la evoluci?n de una instalaci?n antigua de MySQL 5.1. No se deben ejecutar todas sin comprobar antes cu?les ya se aplicaron. La migraci?n 13 elimina las vistas antiguas de pilotos y propietarios, y la 16 incorpora el descuento de repuestos. El esquema 01 es una propuesta anterior y no representa la instalaci?n actual completa.
 
-Las pruebas locales se hicieron en una base separada sobre MySQL 5.1. El workflow prepara MySQL 8.0 dentro de GitHub Actions. Esa base se elimina con el entorno de ejecuci?n. No se conecta con la base del taller.
+Las pruebas locales se hicieron en una base separada sobre MySQL 5.1. El workflow prepara MySQL 8.0 dentro de GitHub Actions. Esa base se elimina con el entorno de ejecuci?n. Su contrase?a se genera por separado y se guarda en el secreto CI_MYSQL_PASSWORD de GitHub; no est? escrita en el workflow. No se conecta con la base del taller.
 
 ## Pipeline
 

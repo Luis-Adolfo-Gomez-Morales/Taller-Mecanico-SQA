@@ -46,6 +46,10 @@ Las capturas mostraron 26 incidencias en un listado filtrado y despu?s 4. En el 
 
 Las dos alertas SQL conocidas parecen falsos positivos. Deben revisarse en el panel y registrar la explicaci?n antes de cerrarlas. No se afirma que ya est?n cerradas. La integraci?n nativa actual no importa LCOV; para mostrar cobertura en SonarQube se debe migrar a an?lisis desde CI, configurar un token privado y desactivar el an?lisis autom?tico.
 
+## Prueba del rechazo en GitHub
+
+En la primera ejecuci?n del pull request 1, build y test aprobaron. SonarQube rechaz? una clave escrita para la base temporal. Analyze y report fallaron por ese rechazo, como estaba previsto. Se corrigi? guardando una clave aleatoria en CI_MYSQL_PASSWORD, un secreto cifrado del repositorio. La ejecuci?n inicial es [41948184764](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/runs/41948184764).
+
 ## Evidencias y l?mites
 
 Los resultados locales est?n en `docs/evidencias/`. GitHub Actions conserva los reportes de cada nueva ejecuci?n durante 14 d?as. El estado remoto debe comprobarse en la ejecuci?n del pull request de esta entrega; un resultado local aprobado no demuestra por s? mismo que GitHub tambi?n aprob?.

@@ -37,19 +37,19 @@ jobs:
       DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_USER: root
-      DB_PASSWORD: clave-temporal-ci
+      DB_PASSWORD: ${{ secrets.CI_MYSQL_PASSWORD }}
       DB_NAME: taller_ci_sqa_test
       RUN_DB_TESTS: '1'
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: clave-temporal-ci
+          MYSQL_ROOT_PASSWORD: ${{ secrets.CI_MYSQL_PASSWORD }}
           MYSQL_ROOT_HOST: '%'
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -pclave-temporal-ci"
+          --health-cmd="mysqladmin ping -h localhost -p${{ secrets.CI_MYSQL_PASSWORD }}"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
