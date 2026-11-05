@@ -1,7 +1,7 @@
 # Taller Mec?nico: proyecto de calidad de software
 
 [![Controles de calidad](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/workflows/main.yml/badge.svg)](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/workflows/main.yml)
-[![SonarQube](https://sonarcloud.io/api/project_badges/measure?project=Luis-Adolfo-Gomez-Morales_Taller-Mecanico-SQA&metric=alert_status)](https://sonarcloud.io/dashboard?id=Luis-Adolfo-Gomez-Morales_Taller-Mecanico-SQA)
+[![SonarQube](https://img.shields.io/badge/SonarQube-ver%20panel-blue)](https://sonarcloud.io/dashboard?id=Luis-Adolfo-Gomez-Morales_Taller-Mecanico-SQA)
 
 Este proyecto toma una aplicaci?n de escritorio que ya exist?a y le agrega controles de calidad. Permite registrar clientes, veh?culos, mec?nicos, repuestos y ?rdenes de trabajo. Tambi?n conserva el historial del veh?culo y calcula avisos de mantenimiento.
 
@@ -64,7 +64,7 @@ flowchart LR
 
 El workflow est? en `.github/workflows/main.yml`. Se ejecuta al abrir o actualizar un pull request hacia `main`, al subir cambios a `main` y de forma manual. Si una prueba falla, hay advertencias de ESLint, la cobertura baja de 60 % o SonarQube no aprueba, el resultado final falla. En cada ejecuci?n se pueden descargar el c?digo preparado y los reportes desde **Artifacts**. La carpeta `build` contiene el c?digo para instalar; no es un instalador de Windows ni un despliegue en la nube.
 
-La protecci?n obligatoria de `main` se configura en GitHub, no dentro del archivo YAML. Su estado y los pasos pendientes se explican en la [revisi?n de requisitos](docs/cumplimiento-requisitos.md).
+La rama `main` est? protegida: exige pull request y los controles build, test, analyze, report y SonarCloud Code Analysis. La regla tambi?n se aplica al administrador. El resultado comprobado se explica en la [revisi?n de requisitos](docs/cumplimiento-requisitos.md).
 
 ## Documentaci?n
 
@@ -77,4 +77,4 @@ La protecci?n obligatoria de `main` se configura en GitHub, no dentro del archiv
 - [Deuda t?cnica](docs/deuda-tecnica.md): problemas pendientes y prioridades.
 - [Revisi?n del enunciado](docs/cumplimiento-requisitos.md): requisitos completados y pendientes.
 
-La presentaci?n, el PDF y el video se entregan por separado en la plataforma del curso y est?n excluidos del repositorio. Como el repositorio es privado, el docente necesita una invitaci?n para poder revisarlo.
+La presentaci?n, el PDF y el video se entregan por separado en la plataforma del curso y est?n excluidos del repositorio. El repositorio es p?blico para que el docente pueda revisarlo y para permitir la protecci?n de main con el plan disponible.

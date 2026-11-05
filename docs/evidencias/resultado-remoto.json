@@ -1,0 +1,25 @@
+{
+  "fecha_revision": "2026-11-04",
+  "commit": "db2ec903b1906ff79002323459bea60b822cf367",
+  "pull_request": 1,
+  "workflow_run": 41948701790,
+  "url": "https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/runs/41948701790",
+  "etapas": {
+    "build": "success",
+    "test": "success",
+    "analyze": "success",
+    "report": "success"
+  },
+  "repositorio_publico": true,
+  "main_protegida": true,
+  "controles_obligatorios": [
+    "build",
+    "test",
+    "analyze",
+    "report",
+    "SonarCloud Code Analysis"
+  ],
+  "administrador_sujeto_a_regla": true,
+  "force_push_permitido": false,
+  "borrado_permitido": false
+}

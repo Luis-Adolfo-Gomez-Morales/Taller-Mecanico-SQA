@@ -44,15 +44,23 @@ Al ampliar la medici?n se detect? que las pruebas sin MySQL solo cubr?an cerca d
 
 Las capturas mostraron 26 incidencias en un listado filtrado y despu?s 4. En el ?ltimo commit publicado antes de esta entrega (`d383c98`), la API de GitHub inform? `SonarCloud Code Analysis: success`. El panel es privado: no se pudieron consultar desde la API p?blica sus cifras actuales de bugs, duplicaci?n, cobertura o problemas de mantenimiento.
 
+Despu?s de mover la clave al secreto, el control del pull request sobre `f9085eb` inform? Quality Gate passed: 0 incidencias nuevas, 0 puntos de seguridad por revisar y 0,0 % de duplicaci?n del c?digo nuevo. Mostr? 0,0 % de cobertura en SonarQube porque no se importa el reporte en el modo autom?tico; ese valor no sustituye el 77,10 % medido en las pruebas. Estas cifras describen c?digo nuevo del pull request, no toda la rama principal.
+
 Las dos alertas SQL conocidas parecen falsos positivos. Deben revisarse en el panel y registrar la explicaci?n antes de cerrarlas. No se afirma que ya est?n cerradas. La integraci?n nativa actual no importa LCOV; para mostrar cobertura en SonarQube se debe migrar a an?lisis desde CI, configurar un token privado y desactivar el an?lisis autom?tico.
 
 ## Prueba del rechazo en GitHub
 
 En la primera ejecuci?n del pull request 1, build y test aprobaron. SonarQube rechaz? una clave escrita para la base temporal. Analyze y report fallaron por ese rechazo, como estaba previsto. Se corrigi? guardando una clave aleatoria en CI_MYSQL_PASSWORD, un secreto cifrado del repositorio. La ejecuci?n inicial es [41948184764](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/runs/41948184764).
 
+## Resultado remoto y protecci?n
+
+La [ejecuci?n 41948701790](https://github.com/Luis-Adolfo-Gomez-Morales/Taller-Mecanico-SQA/actions/runs/41948701790), del commit `db2ec90`, aprob? build, test, analyze y report. Esta ejecuci?n prueba la integraci?n con MySQL 8.0 y la comprobaci?n nativa de SonarQube en el pull request 1. Los reportes quedaron publicados como archivos descargables.
+
+Despu?s de la autorizaci?n del propietario, el repositorio se hizo p?blico y se activ? la protecci?n de main. Se exigen pull requests y los cinco controles de calidad, tambi?n para el administrador. No se cambiaron ni se publicaron la configuraci?n personal, respaldos, presentaci?n, PDF o video.
+
 ## Evidencias y l?mites
 
-Los resultados locales est?n en `docs/evidencias/`. GitHub Actions conserva los reportes de cada nueva ejecuci?n durante 14 d?as. El estado remoto debe comprobarse en la ejecuci?n del pull request de esta entrega; un resultado local aprobado no demuestra por s? mismo que GitHub tambi?n aprob?.
+Los resultados locales est?n en `docs/evidencias/`. GitHub Actions conserva los reportes de cada nueva ejecuci?n durante 14 d?as. La evidencia remota anterior est? separada de la local: no se dio por aprobado GitHub solo porque las pruebas locales terminaron bien.
 
 ## Lo aprendido
 

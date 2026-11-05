@@ -56,11 +56,11 @@ El an?lisis autom?tico de SonarQube no admite importar cobertura. El LCOV queda 
 
 ## Protecci?n de main y revisi?n
 
-La ?ltima consulta indic? `protected: false`; el acceso al ajuste de protecci?n devolvi? HTTP 403. GitHub respondi? que se necesita GitHub Pro o hacer p?blico el repositorio para activar esta funci?n. No basta con agregar un workflow para proteger una rama.
+El repositorio se hizo p?blico con autorizaci?n del propietario. La consulta posterior confirm? la protecci?n de main y estos controles obligatorios: build, test, analyze, report y SonarCloud Code Analysis. La rama debe estar actualizada antes de integrar. La regla tambi?n se aplica al administrador y bloquea borrado y force push.
 
-Cuando la cuenta lo permita, entrar en Settings, Branches o Rules y crear una regla para main. Exigir pull request y los controles build, test, analyze, report y SonarCloud Code Analysis. Desactivar saltos de la regla por administradores y bloquear borrado y force push. Si trabaja otra persona, pedir al menos una aprobaci?n. En trabajo individual no se debe inventar una aprobaci?n ajena ni bloquear el proyecto esperando la aprobaci?n del propio autor.
+Se exige abrir un pull request. Como el trabajo es individual, no se exige una aprobaci?n de otra cuenta ni se inventa una revisi?n ajena. La revisi?n autom?tica s? es obligatoria. Si se incorpora un compa?ero, conviene exigir al menos una aprobaci?n humana.
 
-Hasta que se confirme esa regla, la protecci?n obligatoria sigue pendiente. No cambiar la privacidad del repositorio sin decisi?n del propietario. Referencia: [ramas protegidas de GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
+La primera configuraci?n no fue posible porque GitHub exig?a Pro o un repositorio p?blico. Se resolvi? con la segunda opci?n. Referencia: [ramas protegidas de GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
 
 ## Mantenimiento y soluci?n de problemas
 

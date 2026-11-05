@@ -70,7 +70,7 @@ Primero se registra el archivo y el problema. Despu?s se corrige la causa, se re
 | Aceptar c?digo con fallos | Controles obligatorios y revisi?n mediante pull request |
 | Mostrar una cobertura que no corresponde | Indicar los archivos medidos y separar la interfaz simulada |
 | No recibir resultado de SonarQube | Detener analyze y revisar la conexi?n del repositorio |
-| No poder proteger una rama privada por el plan | Registrar la limitaci?n y completar la configuraci?n con el propietario |
+| Saltarse la revisi?n al subir cambios | Main protegida incluso para el administrador; PR y controles obligatorios |
 | Dar por realizadas pruebas manuales sin hacerlas | Marcar los pasos como pendientes hasta ejecutarlos |
 
 ## Seguimiento
