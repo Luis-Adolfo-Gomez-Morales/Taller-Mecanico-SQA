@@ -2,7 +2,7 @@ const path = require('path');
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const database = require('./src/database');
 
-// La identidad de la sesion se conserva en el proceso principal, por ventana.
+// Cada ventana conserva el usuario que inicio sesion.
 const usuariosPorVentana = new WeakMap();
 
 function registerDatabaseHandlers() {

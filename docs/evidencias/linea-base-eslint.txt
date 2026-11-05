@@ -1,0 +1,43 @@
+Revision del commit d915beb con ESLint instalado en el proyecto.
+
+.\src\database.js
+  721:16  warning  Expected '!==' and instead saw '!='  eqeqeq
+
+.\src\maintenance-rules.js
+   31:27  warning  Expected '===' and instead saw '=='  eqeqeq
+   32:24  warning  Expected '===' and instead saw '=='  eqeqeq
+   33:13  warning  Expected '!==' and instead saw '!='  eqeqeq
+   33:42  warning  Expected '!==' and instead saw '!='  eqeqeq
+   34:13  warning  Expected '!==' and instead saw '!='  eqeqeq
+   34:44  warning  Expected '!==' and instead saw '!='  eqeqeq
+   35:13  warning  Expected '!==' and instead saw '!='  eqeqeq
+   35:44  warning  Expected '!==' and instead saw '!='  eqeqeq
+   36:12  warning  Expected '===' and instead saw '=='  eqeqeq
+   36:29  warning  Expected '===' and instead saw '=='  eqeqeq
+  154:45  warning  Expected '===' and instead saw '=='  eqeqeq
+  155:24  warning  Expected '!==' and instead saw '!='  eqeqeq
+  229:74  warning  Expected '===' and instead saw '=='  eqeqeq
+
+.\src\scripts\cliente-validation.js
+  34:35  warning  Expected '!==' and instead saw '!='  eqeqeq
+
+.\src\scripts\dashboard.js
+  54:41  warning  Expected '===' and instead saw '=='  eqeqeq
+  55:46  warning  Expected '===' and instead saw '=='  eqeqeq
+  56:47  warning  Expected '===' and instead saw '=='  eqeqeq
+
+.\src\scripts\modules\ordenes-trabajo.js
+  19:7  warning  'ordenMecanicosList' is assigned a value but never used  no-unused-vars
+
+.\src\scripts\modules\vehiculos.js
+  25:10  warning  'getEstadoClass' is defined but never used  no-unused-vars
+
+.\tests\clientes.validation.test.js
+  40:13  warning  'vehiculo' is assigned a value but never used  no-unused-vars
+
+.\tests\maintenance.integration.js
+  150:42   warning  Expected '!==' and instead saw '!='  eqeqeq
+  216:114  warning  Expected '===' and instead saw '=='  eqeqeq
+
+✖ 23 problems (0 errors, 23 warnings)
+

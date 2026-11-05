@@ -1,5 +1,5 @@
--- Migracion relacional segura para MySQL 5.1.
--- Usar esta version en lugar de 06. Ejecutar con la aplicacion cerrada.
+-- Reorganiza las tablas de clientes en MySQL 5.1.
+-- Revisar la estructura y hacer un respaldo antes. Cerrar la aplicacion.
 USE taller_ttc;
 
 ALTER TABLE propietarios

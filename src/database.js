@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise');
-const localConfig = require('./db-config');
+const localConfig = require('./config');
 const { validarCliente, correoValido } = require('./scripts/cliente-validation');
 
 const dbConfig = {
@@ -14,7 +14,7 @@ const dbConfig = {
     dateStrings: true
 };
 
-// Permite usar una conexion transaccional en las pruebas sin ejecutar codigo dinamico.
+// Las pruebas pueden usar su propia conexion sin ejecutar archivos como texto.
 function createDatabase(pool) {
 const rules = require('./maintenance-rules').createRules(pool);
 const maintenance = require('./maintenance-layer').createMaintenanceLayer(pool, { listClientes: listPilotos, createCliente: createPiloto });
@@ -64,7 +64,7 @@ function mapVehiculo(row) {
 }
 
 function mapPiloto(row) {
-    // Conservar los nombres consumidos por los modulos existentes.
+    // Se conservan estos nombres porque las pantallas todavia los usan.
     return {
         id: row.id_cliente,
         tipoPersona: row.tipo_persona,
@@ -731,7 +731,7 @@ async function saveMecanico(id, value) {
     } catch(error) { if(error.code === 'ER_DUP_ENTRY') throw new Error('Ya existe un mecanico con ese DPI.'); throw error; }
 }
 
-// Historial verificable a partir de registros persistidos; no inventa cambios anteriores.
+// El historial muestra solamente los movimientos guardados.
 async function listHistorial() {
     const [rows] = await pool.query(`
         SELECT o.id_orden, o.id_vehiculo, o.fecha_entrada AS fecha, o.placa,

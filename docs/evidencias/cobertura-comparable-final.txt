@@ -1,0 +1,380 @@
+Fecha: 2026-11-04. Entorno local: Node.js 22.22.3 y MySQL 5.1 en base separada.
+Comando: node --test --experimental-test-coverage --test-coverage-include=src/maintenance-rules.js --test-coverage-include=src/scripts/cliente-validation.js tests\clientes.validation.test.js tests\database-factory.test.js tests\historial.test.js tests\maintenance-coverage.test.js tests\maintenance-dates.test.js tests\maintenance-extra.test.js tests\maintenance-mock.test.js tests\modules-data.test.js tests\quality-gates.test.js tests\ui-dialogs.test.js tests\vehiculos-session.test.js
+Codigo de salida: 0
+
+TAP version 13
+# Subtest: Cada campo debe estar presente, con contenido real y dentro del largo de su columna
+ok 1 - Cada campo debe estar presente, con contenido real y dentro del largo de su columna
+  ---
+  duration_ms: 6.9101
+  type: 'test'
+  ...
+# Subtest: Se rechazan correo, estados, fechas imposibles y asignaciones pendientes
+ok 2 - Se rechazan correo, estados, fechas imposibles y asignaciones pendientes
+  ---
+  duration_ms: 2.9516
+  type: 'test'
+  ...
+# Subtest: Individual y Empresa requieren todos sus datos y se normalizan espacios
+ok 3 - Individual y Empresa requieren todos sus datos y se normalizan espacios
+  ---
+  duration_ms: 0.5804
+  type: 'test'
+  ...
+# Subtest: Contacto empresa opcional se normaliza a null y estado no se acepta del formulario
+ok 4 - Contacto empresa opcional se normaliza a null y estado no se acepta del formulario
+  ---
+  duration_ms: 0.7356
+  type: 'test'
+  ...
+# Subtest: Un propietario se registra sin vehiculo y no acepta una placa como relacion
+ok 5 - Un propietario se registra sin vehiculo y no acepta una placa como relacion
+  ---
+  duration_ms: 0.7805
+  type: 'test'
+  ...
+# Subtest: Correo conserva dominios con subdominios y rechaza separadores o espacios invalidos
+ok 6 - Correo conserva dominios con subdominios y rechaza separadores o espacios invalidos
+  ---
+  duration_ms: 0.8441
+  type: 'test'
+  ...
+# Subtest: Cada instancia consulta la conexion recibida sin compartir datos
+ok 7 - Cada instancia consulta la conexion recibida sin compartir datos
+  ---
+  duration_ms: 2.8936
+  type: 'test'
+  ...
+# Subtest: Historial filtra, pagina y limpia datos ante un error
+ok 8 - Historial filtra, pagina y limpia datos ante un error
+  ---
+  duration_ms: 16.9504
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza vehiculo sin cliente
+ok 9 - Cobertura: rechaza vehiculo sin cliente
+  ---
+  duration_ms: 6.611
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza propietario vacio
+ok 10 - Cobertura: rechaza propietario vacio
+  ---
+  duration_ms: 0.827
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza cliente inexistente
+ok 11 - Cobertura: rechaza cliente inexistente
+  ---
+  duration_ms: 0.5173
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza nivel de uso invalido
+ok 12 - Cobertura: rechaza nivel de uso invalido
+  ---
+  duration_ms: 0.6075
+  type: 'test'
+  ...
+# Subtest: Cobertura: registra vehiculo e historial
+ok 13 - Cobertura: registra vehiculo e historial
+  ---
+  duration_ms: 1.0507
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza vehiculo inexistente al editar
+ok 14 - Cobertura: rechaza vehiculo inexistente al editar
+  ---
+  duration_ms: 0.8362
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza orden con estado invalido
+ok 15 - Cobertura: rechaza orden con estado invalido
+  ---
+  duration_ms: 1.1021
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza orden sin vehiculo
+ok 16 - Cobertura: rechaza orden sin vehiculo
+  ---
+  duration_ms: 0.5221
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza orden inexistente
+ok 17 - Cobertura: rechaza orden inexistente
+  ---
+  duration_ms: 0.4365
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza mecanico invalido
+ok 18 - Cobertura: rechaza mecanico invalido
+  ---
+  duration_ms: 0.8091
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza seleccion de servicios invalida
+ok 19 - Cobertura: rechaza seleccion de servicios invalida
+  ---
+  duration_ms: 1.3731
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza servicio con identificador invalido
+ok 20 - Cobertura: rechaza servicio con identificador invalido
+  ---
+  duration_ms: 2.6395
+  type: 'test'
+  ...
+# Subtest: Cobertura: rechaza servicio inactivo
+ok 21 - Cobertura: rechaza servicio inactivo
+  ---
+  duration_ms: 0.6935
+  type: 'test'
+  ...
+# Subtest: Cobertura: genera recordatorios
+ok 22 - Cobertura: genera recordatorios
+  ---
+  duration_ms: 0.6074
+  type: 'test'
+  ...
+# Subtest: Cobertura: dashboard sin mantenimientos
+ok 23 - Cobertura: dashboard sin mantenimientos
+  ---
+  duration_ms: 3.261
+  type: 'test'
+  ...
+# Subtest: Cobertura: dashboard identifica servicio vencido
+ok 24 - Cobertura: dashboard identifica servicio vencido
+  ---
+  duration_ms: 3.272
+  type: 'test'
+  ...
+# Subtest: Dias restantes usan calendario local: hoy, futuro y vencido
+ok 25 - Dias restantes usan calendario local: hoy, futuro y vencido
+  ---
+  duration_ms: 4.0948
+  type: 'test'
+  ...
+# Subtest: Estados respetan limites y la referencia mas urgente
+ok 26 - Estados respetan limites y la referencia mas urgente
+  ---
+  duration_ms: 0.6289
+  type: 'test'
+  ...
+# Subtest: Acepta un kilometraje válido
+ok 27 - Acepta un kilometraje válido
+  ---
+  duration_ms: 4.0255
+  type: 'test'
+  ...
+# Subtest: Acepta kilometraje cero
+ok 28 - Acepta kilometraje cero
+  ---
+  duration_ms: 0.3938
+  type: 'test'
+  ...
+# Subtest: Redondea kilometraje a dos decimales
+ok 29 - Redondea kilometraje a dos decimales
+  ---
+  duration_ms: 0.3079
+  type: 'test'
+  ...
+# Subtest: Rechaza kilometraje negativo
+ok 30 - Rechaza kilometraje negativo
+  ---
+  duration_ms: 0.6554
+  type: 'test'
+  ...
+# Subtest: Rechaza kilometraje vacío
+ok 31 - Rechaza kilometraje vacío
+  ---
+  duration_ms: 0.3112
+  type: 'test'
+  ...
+# Subtest: Rechaza kilometraje no numérico
+ok 32 - Rechaza kilometraje no numérico
+  ---
+  duration_ms: 0.3062
+  type: 'test'
+  ...
+# Subtest: Rechaza kilometraje infinito
+ok 33 - Rechaza kilometraje infinito
+  ---
+  duration_ms: 0.5309
+  type: 'test'
+  ...
+# Subtest: Calcula próxima fecha con uso normal
+ok 34 - Calcula próxima fecha con uso normal
+  ---
+  duration_ms: 2.6999
+  type: 'test'
+  ...
+# Subtest: Calcula próxima fecha con uso bajo
+ok 35 - Calcula próxima fecha con uso bajo
+  ---
+  duration_ms: 0.3471
+  type: 'test'
+  ...
+# Subtest: Calcula próxima fecha con uso alto
+ok 36 - Calcula próxima fecha con uso alto
+  ---
+  duration_ms: 0.3148
+  type: 'test'
+  ...
+# Subtest: Rechaza nivel de uso inválido
+ok 37 - Rechaza nivel de uso inválido
+  ---
+  duration_ms: 0.3481
+  type: 'test'
+  ...
+# Subtest: Rechaza fecha inválida
+ok 38 - Rechaza fecha inválida
+  ---
+  duration_ms: 0.3423
+  type: 'test'
+  ...
+# Subtest: No calcula fecha cuando días es cero
+ok 39 - No calcula fecha cuando días es cero
+  ---
+  duration_ms: 0.3006
+  type: 'test'
+  ...
+# Subtest: Rechaza kilometraje menor al registrado sin modificar MySQL
+ok 40 - Rechaza kilometraje menor al registrado sin modificar MySQL
+  ---
+  duration_ms: 3.8338
+  type: 'test'
+  ...
+# Subtest: Actualiza kilometraje y registra historial correctamente
+ok 41 - Actualiza kilometraje y registra historial correctamente
+  ---
+  duration_ms: 0.9971
+  type: 'test'
+  ...
+# Subtest: Ejecuta rollback cuando falla MySQL
+ok 42 - Ejecuta rollback cuando falla MySQL
+  ---
+  duration_ms: 0.8119
+  type: 'test'
+  ...
+# Subtest: vehiculos: consulta vacia, fallo y recuperacion sin datos ficticios
+ok 43 - vehiculos: consulta vacia, fallo y recuperacion sin datos ficticios
+  ---
+  duration_ms: 18.7003
+  type: 'test'
+  ...
+# Subtest: pilotos: consulta vacia, fallo y recuperacion sin datos ficticios
+ok 44 - pilotos: consulta vacia, fallo y recuperacion sin datos ficticios
+  ---
+  duration_ms: 5.3158
+  type: 'test'
+  ...
+# Subtest: ordenes-trabajo: consulta vacia, fallo y recuperacion sin datos ficticios
+ok 45 - ordenes-trabajo: consulta vacia, fallo y recuperacion sin datos ficticios
+  ---
+  duration_ms: 42.936
+  type: 'test'
+  ...
+# Subtest: repuestos: consulta vacia, fallo y recuperacion sin datos ficticios
+ok 46 - repuestos: consulta vacia, fallo y recuperacion sin datos ficticios
+  ---
+  duration_ms: 6.4104
+  type: 'test'
+  ...
+# Subtest: Consulta de cliente oculta agregar vehiculo; edicion lo conserva
+ok 47 - Consulta de cliente oculta agregar vehiculo; edicion lo conserva
+  ---
+  duration_ms: 3.2185
+  type: 'test'
+  ...
+# Subtest: Ordenes usa existencia actual de inventario y no sustituye referencias perdidas por cero
+ok 48 - Ordenes usa existencia actual de inventario y no sustituye referencias perdidas por cero
+  ---
+  duration_ms: 4.2621
+  type: 'test'
+  ...
+# Subtest: Estado solo visible en edicion; cancelar no escribe y confirmar actualiza el indicador
+ok 49 - Estado solo visible en edicion; cancelar no escribe y confirmar actualiza el indicador
+  ---
+  duration_ms: 5.0948
+  type: 'test'
+  ...
+# Subtest: Busqueda de vehiculos alterna placa, nombre y modelo sin perder espacios
+ok 50 - Busqueda de vehiculos alterna placa, nombre y modelo sin perder espacios
+  ---
+  duration_ms: 8.5526
+  type: 'test'
+  ...
+# Subtest: Indicadores de ordenes filtran mes y anio de creacion, conservando inventario actual
+ok 51 - Indicadores de ordenes filtran mes y anio de creacion, conservando inventario actual
+  ---
+  duration_ms: 5.713
+  type: 'test'
+  ...
+# Subtest: Busqueda de ordenes: placa, cliente, numero y mecanico con formato automatico
+ok 52 - Busqueda de ordenes: placa, cliente, numero y mecanico con formato automatico
+  ---
+  duration_ms: 8.1412
+  type: 'test'
+  ...
+# Subtest: Placa autocompleta vehiculo y cliente sin cambiar los campos manuales
+ok 53 - Placa autocompleta vehiculo y cliente sin cambiar los campos manuales
+  ---
+  duration_ms: 4.672
+  type: 'test'
+  ...
+# Subtest: Campos automaticos bloqueados y casilla Pinchazo disponible al editar
+ok 54 - Campos automaticos bloqueados y casilla Pinchazo disponible al editar
+  ---
+  duration_ms: 5.3552
+  type: 'test'
+  ...
+# Subtest: Seleccion unica dentro del campo y servicio por cualquier palabra
+ok 55 - Seleccion unica dentro del campo y servicio por cualquier palabra
+  ---
+  duration_ms: 5.7906
+  type: 'test'
+  ...
+# Subtest: Acciones de estado cancelan o avanzan sin perder los datos de la orden
+ok 56 - Acciones de estado cancelan o avanzan sin perder los datos de la orden
+  ---
+  duration_ms: 7.0224
+  type: 'test'
+  ...
+# Subtest: Los controles rechazan advertencias y cobertura insuficiente
+ok 57 - Los controles rechazan advertencias y cobertura insuficiente
+  ---
+  duration_ms: 1194.7183
+  type: 'test'
+  ...
+# Subtest: Confirmacion cancelable, avisos en cola y texto seguro
+ok 58 - Confirmacion cancelable, avisos en cola y texto seguro
+  ---
+  duration_ms: 11.437
+  type: 'test'
+  ...
+# Subtest: El creador procede de la sesion de la ventana, no del formulario
+ok 59 - El creador procede de la sesion de la ventana, no del formulario
+  ---
+  duration_ms: 6.5096
+  type: 'test'
+  ...
+1..59
+# tests 59
+# suites 0
+# pass 59
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1480.4984
+# start of coverage report
+# ----------------------------------------------------------------------------------------------------------
+# file                    | line % | branch % | funcs % | uncovered lines
+# ----------------------------------------------------------------------------------------------------------
+# src                     |        |          |         | 
+#  maintenance-rules.js   |  94.33 |    66.85 |   86.36 | 86-87 160 168-169 187-188 196 202 204-205 207-209
+#  scripts                |        |          |         | 
+#   cliente-validation.js |  98.18 |    89.19 |  100.00 | 54
+# ----------------------------------------------------------------------------------------------------------
+# all files               |  95.03 |    70.64 |   88.00 | 
+# ----------------------------------------------------------------------------------------------------------
+# end of coverage report

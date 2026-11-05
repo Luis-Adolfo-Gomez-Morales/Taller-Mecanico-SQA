@@ -33,7 +33,7 @@ let repuestosOrdenActual = [];
 let repuestoEditandoIndex = null;
 let ordenSeleccionadaId = null;
 
-// Datos de negocio cargados exclusivamente desde la API de MySQL.
+// Los registros se consultan en MySQL al abrir la pantalla.
 const catalogoVehiculos = [];
 const inventarioRepuestos = [];
 const ordenesTrabajo = [];

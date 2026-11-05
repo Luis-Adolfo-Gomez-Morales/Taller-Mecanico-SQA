@@ -1,41 +1,25 @@
-# Modelo relacional actual
+# Modelo de datos actual
 
-## Clientes y compatibilidad
+La tabla `clientes` guarda las personas y empresas. Cada veh?culo se relaciona con un cliente mediante `id_cliente`. El nombre manual del propietario del veh?culo puede ser distinto al del cliente vinculado.
 
-`clientes` es la tabla física que representa a las personas o empresas atendidas por el taller. Sustituye la tabla física `pilotos`, porque la interfaz la presenta como Clientes.
-
-Para no interrumpir el código existente durante la transición, se conservan dos vistas actualizables:
-
-- `pilotos`: expone los nombres de columna que todavía usa la interfaz existente.
-- `propietarios`: mantiene la compatibilidad con la capa de mantenimiento creada en fase 2.
-
-Las vistas no duplican datos: ambas leen y escriben sobre `clientes`.
-
-## Relaciones
-
-```text
-clientes 1 ─── N vehiculos 1 ─── N ordenes_trabajo
-ordenes_trabajo 1 ─── N detalle_servicio N ─── 1 servicios
-vehiculos 1 ─── N historial_kilometraje
-detalle_servicio 1 ─── N recordatorios
-ordenes_trabajo 1 ─── N orden_repuestos N ─── 1 inventario_repuestos
-inventario_repuestos 1 ─── N repuestos_movimientos
-
-usuarios N ─── N roles N ─── N permisos N ─── 1 modulos
+```mermaid
+erDiagram
+    CLIENTES ||--o{ VEHICULOS : tiene
+    VEHICULOS ||--o{ ORDENES_TRABAJO : recibe
+    VEHICULOS ||--o{ HISTORIAL_KILOMETRAJE : conserva
+    MECANICOS ||--o{ ORDENES_TRABAJO : atiende
+    ORDENES_TRABAJO ||--o{ DETALLE_SERVICIO : incluye
+    SERVICIOS ||--o{ DETALLE_SERVICIO : describe
+    DETALLE_SERVICIO ||--o{ RECORDATORIOS : genera
+    ORDENES_TRABAJO ||--o{ ORDEN_REPUESTOS : utiliza
+    INVENTARIO_REPUESTOS ||--o{ ORDEN_REPUESTOS : aporta
+    INVENTARIO_REPUESTOS ||--o{ REPUESTOS_MOVIMIENTOS : registra
 ```
 
-## Integridad aplicada
+Las relaciones evitan guardar referencias a registros que no existen. Las placas son ?nicas. No se puede eliminar un cliente con veh?culos vinculados ni un veh?culo que tenga ?rdenes o historial que deba conservarse.
 
-- `vehiculos.id_cliente` referencia `clientes.id_cliente`.
-- `ordenes_trabajo.id_vehiculo` referencia `vehiculos.id_vehiculo`.
-- `repuestos_movimientos.id_repuesto` referencia `inventario_repuestos.id_repuesto`.
-- Las relaciones ya existentes de órdenes, detalles, repuestos, usuarios, roles y permisos se conservaron.
-- Las columnas de texto heredadas (`propietario`, `piloto`, `placa`) se mantienen como historial visual y compatibilidad de interfaz; las claves foráneas son la relación operativa.
+Las ?rdenes guardan una copia de algunos datos del veh?culo para conservar c?mo estaban al atenderlo. El historial registra las lecturas de kilometraje. Los servicios preventivos guardan una pr?xima fecha y los recordatorios usan esa fecha para avisar.
 
-## Migraciones ejecutadas localmente
+Las vistas antiguas `pilotos` y `propietarios` fueron parte de una transici?n y se retiran en la migraci?n 13. El c?digo actual consulta `clientes`; algunos nombres antiguos siguen en archivos y mensajes internos para mantener la comunicaci?n entre las pantallas.
 
-1. `03-migracion-fase-2-mysql51.sql`
-2. `07-normalizar-clientes-con-compatibilidad-mysql51.sql`
-3. `08-vista-compatibilidad-propietarios-mysql51.sql`
-
-Antes de normalizar se generó y verificó una copia temporal de `pilotos`; fue eliminada después de confirmar que los registros, las relaciones y las consultas funcionaban correctamente.
+El esquema vac?o actual est? en `tests/fixtures/schema.sql`. No contiene datos reales. Los archivos 03 y 07 a 16 muestran la evoluci?n de una instalaci?n anterior; no se deben repetir sin revisar primero su estado.

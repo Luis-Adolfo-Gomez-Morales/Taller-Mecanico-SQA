@@ -1,8 +1,8 @@
-// Capa de datos incremental para fase 2.
-// No modifica los flujos existentes de vehiculos ni ordenes de trabajo.
+// Operaciones de servicios y avisos de mantenimiento.
+// Estas funciones comparten los datos de vehiculos y ordenes.
 
 function createMaintenanceLayer(pool, { listClientes, createCliente }) {
-    // Mantener la API anterior con las mismas reglas del registro de clientes.
+    // Se usan las mismas reglas del formulario de clientes.
     async function listPropietarios() {
         return listClientes();
     }

@@ -1,82 +1,36 @@
-# Fase 1: análisis y requerimientos
+# An?lisis del sistema del taller
 
-## 1. Identificación del problema
+Este documento resume el problema del proyecto que se reutiliz? para el trabajo de calidad. El plan del curso y los controles se explican en SQA_PLAN.md.
 
-Un taller de motocicletas y vehículos requiere centralizar el control de propietarios, vehículos, atenciones y mantenimientos preventivos. El control manual o disperso dificulta recuperar el historial de un vehículo y anticipar cuándo debe regresar al taller.
+## Problema y objetivo
 
-El kilometraje no basta para generar un recordatorio, porque el taller no conoce el recorrido diario del vehículo. Por esta razón, cada servicio preventivo debe conservar el kilometraje real de la atención y una fecha estimada para el siguiente mantenimiento, calculada según el tipo de servicio y el nivel de uso declarado.
+El taller necesita guardar clientes, veh?culos y atenciones en un mismo lugar. Llevarlos por separado dificulta consultar el historial y saber cu?ndo toca otro mantenimiento. El objetivo es conservar esos datos y ayudar al encargado a revisar los servicios pendientes.
 
-## 2. Objetivo general
+## Personas que lo usan
 
-Analizar, diseñar e implementar un sistema de control de servicios y mantenimiento preventivo que administre propietarios, vehículos, órdenes, historial de atenciones y recordatorios de próximos mantenimientos.
+El encargado registra clientes, veh?culos, mec?nicos, repuestos y ?rdenes. El mec?nico atiende el veh?culo y aporta los datos del trabajo. El cliente recibe la informaci?n del taller; la aplicaci?n genera avisos internos y no env?a mensajes autom?ticamente.
 
-## 3. Objetivos específicos
+## Funciones principales
 
-1. Registrar propietarios individuales y empresas con datos de contacto.
-2. Asociar cada vehículo con un propietario y conservar sus datos técnicos.
-3. Registrar el ingreso al taller mediante una orden de servicio.
-4. Conservar servicios, kilometrajes y observaciones como historial no destructivo.
-5. Estimar el próximo servicio con fecha y nivel de uso del vehículo.
-6. Mostrar mantenimientos próximos, vencidos y recordatorios pendientes.
+| ID | Necesidad |
+|---|---|
+| RF-01 | Registrar clientes individuales y empresas con sus datos de contacto |
+| RF-02 | Vincular uno o varios veh?culos a un cliente |
+| RF-03 | Guardar placa, propietario, tipo, marca, modelo y kilometraje |
+| RF-04 | Registrar una orden por cada atenci?n, con fechas, mec?nico, trabajos y estado |
+| RF-05 | Conservar el historial de servicios y kilometraje |
+| RF-06 | Calcular una pr?xima fecha para servicios preventivos |
+| RF-07 | Mostrar servicios pr?ximos y atrasados en el panel |
+| RF-08 | Registrar repuestos y descontar los utilizados en una orden |
 
-## 4. Actores
+## Reglas
 
-| Actor | Descripción | Acciones principales |
-| --- | --- | --- |
-| Administrador o encargado | Personal responsable del sistema. | Gestionar propietarios, vehículos, órdenes, servicios y reportes. |
-| Mecánico | Personal que atiende los vehículos. | Registrar diagnóstico, servicios realizados, observaciones y estado de la orden. |
-| Propietario individual | Persona dueña de uno o varios vehículos. | Recibir recordatorios por teléfono o correo. |
-| Empresa propietaria | Organización dueña de uno o varios vehículos. | Mantener razón social y contacto responsable para recordatorios. |
-| Sistema | Aplicación de control. | Generar identificadores, validar reglas y producir alertas. |
+Una placa no se repite. El kilometraje no puede bajar. Una orden puede estar Abierta, En proceso o Finalizada. Para finalizar se piden los datos de salida y del servicio. Los avisos pr?ximos incluyen hoy y los siguientes siete d?as; una fecha anterior a hoy se considera atrasada.
 
-## 5. Alcance mínimo
+El uso Bajo aumenta el intervalo del mantenimiento un 25 %, Normal lo conserva y Alto lo reduce un 25 %. Los kil?metros se muestran como referencia; no se inventa un recorrido diario del veh?culo.
 
-El sistema incluirá propietarios, vehículos, órdenes de servicio, catálogo de servicios, historial de kilometraje, servicios ejecutados y recordatorios internos. También mostrará un dashboard con indicadores de vehículos, órdenes en proceso, mantenimientos próximos y vencidos.
+La aplicaci?n mantiene datos anteriores de las ?rdenes para conservar el historial. Se impide borrar un cliente o veh?culo cuando se perder?an relaciones importantes. Los cambios se guardan mediante Git y se revisan con pruebas y an?lisis autom?tico.
 
-Quedan como mejoras opcionales el envío real por correo, SMS o WhatsApp, agenda de citas, gráficos y Kubernetes. El manejo de repuestos se conserva como extensión ya existente del proyecto, pero no sustituye el historial de mantenimiento solicitado.
+## L?mites
 
-## 6. Requerimientos funcionales
-
-| Código | Requerimiento |
-| --- | --- |
-| RF-01 | Registrar propietarios individuales y empresas con información de identificación y contacto. |
-| RF-02 | Registrar vehículos con identificador automático, propietario, tipo, marca, modelo, año, placa, kilometraje, fecha de ingreso, estado y observaciones. |
-| RF-03 | Asociar uno o varios vehículos a un propietario. |
-| RF-04 | Crear una orden por cada ingreso del vehículo al taller. |
-| RF-05 | Registrar motivo, kilometraje de ingreso, servicios realizados, observaciones, fechas y estado de la orden. |
-| RF-06 | Conservar el historial de kilometrajes y servicios por vehículo. |
-| RF-07 | Registrar una fecha estimada para el próximo mantenimiento preventivo. |
-| RF-08 | Clasificar los mantenimientos como próximos cuando faltan siete días o menos y como vencidos cuando la fecha ya pasó. |
-| RF-09 | Generar y registrar recordatorios internos para el propietario. |
-| RF-10 | Mostrar en el dashboard vehículos registrados, servicios próximos, servicios vencidos, vehículos atendidos y órdenes en proceso. |
-
-## 7. Requerimientos no funcionales
-
-| Código | Requerimiento |
-| --- | --- |
-| RNF-01 | La aplicación deberá utilizar una base de datos relacional MySQL. |
-| RNF-02 | Las contraseñas y credenciales de conexión no se almacenarán en el repositorio. |
-| RNF-03 | El modelo de datos deberá utilizar claves primarias, foráneas, índices y restricciones de integridad. |
-| RNF-04 | La interfaz deberá estar disponible en español y permitir búsquedas básicas. |
-| RNF-05 | Los cambios deberán conservarse en un repositorio Git mediante commits descriptivos. |
-
-## 8. Reglas de negocio
-
-1. Todo vehículo debe tener un propietario activo.
-2. La placa de un vehículo es única.
-3. El identificador de vehículo se genera automáticamente.
-4. El kilometraje nuevo no puede ser menor que el último kilometraje válido del vehículo.
-5. Todo ingreso debe generar una orden y un registro de kilometraje.
-6. Los historiales de órdenes, servicios y kilometrajes no se eliminan físicamente.
-7. Una orden en estado `Terminado` debe incluir al menos un servicio realizado.
-8. Todo servicio preventivo terminado debe registrar una fecha estimada para el siguiente mantenimiento.
-9. Un mantenimiento es `Próximo` cuando faltan de cero a siete días; es `Vencido` cuando su fecha estimada es anterior a la fecha actual.
-10. Solo puede existir un recordatorio activo por mantenimiento y tipo de aviso.
-11. El nivel de uso permitido es `Bajo`, `Normal` o `Alto`.
-
-## 9. Criterios de aceptación de fase 1
-
-- El problema, actores, alcance y requerimientos están documentados.
-- Las reglas de negocio son verificables y trazables al modelo de datos.
-- Se distingue propietario de piloto o conductor.
-- Se establece que la estimación se basa en tiempo y nivel de uso, además del kilometraje registrado.
+No se incluyen mensajes por correo o WhatsApp, pruebas de carga ni un despliegue web. La aplicaci?n es de escritorio. Las claves de conexi?n personal quedan fuera del repositorio. El manejo actual de contrase?as de usuarios est? anotado como mejora pendiente en deuda-tecnica.md.

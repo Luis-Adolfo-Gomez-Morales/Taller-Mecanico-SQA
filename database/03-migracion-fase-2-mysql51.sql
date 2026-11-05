@@ -1,4 +1,4 @@
--- Migracion ADITIVA para MySQL 5.1.45.
+-- Agrega las tablas de mantenimiento a la base anterior de MySQL 5.1.
 -- No elimina, renombra ni cambia columnas consumidas por la aplicacion actual.
 -- Ejecutar una sola vez sobre la base de datos local taller_ttc.
 USE taller_ttc;
